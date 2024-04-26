@@ -21,7 +21,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(CardListDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<CardListDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCardListPaged([FromQuery] GetCardListPagedQuery request, CancellationToken cancellationToken)
         {
             var cardListPaged = await _sender.Send(request, cancellationToken);
@@ -33,8 +33,8 @@ namespace WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCardListById(Guid id, CancellationToken cancellationToken)
         {
-            var user = await _sender.Send(new GetCardListQuery(id), cancellationToken);
-            return Ok(user);
+            var cardList = await _sender.Send(new GetCardListQuery(id), cancellationToken);
+            return Ok(cardList);
         }
 
         [HttpPost]
@@ -61,8 +61,7 @@ namespace WebApi.Controllers
         [ProducesDefaultResponseType]
         public async Task<ActionResult> DeleteCardList(Guid id, CancellationToken cancellationToken)
         {
-            var deleteEventCommand = new DeleteCardListCommand(id);
-            await _sender.Send(deleteEventCommand, cancellationToken);
+            await _sender.Send(new DeleteCardListCommand(id), cancellationToken);
             return NoContent();
         }
     }

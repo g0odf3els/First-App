@@ -7,6 +7,5 @@ namespace Domain.Entities
         public string Name { get; set; }
 
         public IList<Card> Items { get; private set; } = new List<Card>();
-
     }
 }

@@ -24,8 +24,8 @@ namespace Application.Features.CardLists.Queries.GetCardList
             if(cardList == null)
             {
                 throw new NotFoundException(request.Id.ToString());
-           
             }
+
             return _mapper.Map<CardListDto>(cardList);
         }
     }

@@ -15,7 +15,7 @@ namespace Application.Features.CardLists.Commands.DeleteCardListCommand
 
         public async Task<Unit> Handle(DeleteCardListCommand request, CancellationToken cancellationToken)
         {
-            var cardListToDelete = await _cardListRepository.GetCardListWithCards(request.Id);
+            var cardListToDelete = await _cardListRepository.GetByIdAsync(request.Id);
 
             if (cardListToDelete == null)
             {
@@ -23,6 +23,7 @@ namespace Application.Features.CardLists.Commands.DeleteCardListCommand
             }
 
             await _cardListRepository.DeleteAsync(cardListToDelete);
+
             return Unit.Value;
         }
     }
