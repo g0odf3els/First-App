@@ -1,0 +1,70 @@
+<!-- Модальне вікно (Блок) -->
+<div class="modal-backdrop" *ngIf="display">
+    <div class="modal-content">
+        <div class="card-modal">
+
+            <div class="card-modal__header" (click)="display = false">
+                <mat-icon>close</mat-icon>
+            </div>
+
+            <div class="card-modal__body">
+
+                <div class="card-modal__body__header">
+                    <div class="card-modal__body__header__name">
+                        {{ card.name }}
+                    </div>
+                    <div class="card-modal__body__header__edit" (click)="editCard()">
+                        <mat-icon>edit</mat-icon>
+                        Edit card
+                    </div>
+                </div>
+
+                <div class="card-modal__body__props">
+
+                    <div class="card-modal__props__labels">
+
+                        <div class="card-modal__props__label">
+                            <mat-icon>list</mat-icon>
+                            List
+                        </div>
+
+                        <div class="card-modal__props__label">
+                            <mat-icon>calendar_today</mat-icon>
+                            Due date
+                        </div>
+
+                        <div class="card-modal__props__label">
+                            <mat-icon>sell</mat-icon>
+                            Priority
+                        </div>
+
+                    </div>
+
+                    <div class="card-modal__body__props__values">
+
+                        <mat-form-field class="card-modal__props__card-list">
+                            <mat-select [(ngModel)]="card.listId" (selectionChange)="onListChange($event)">
+                                <mat-option *ngFor="let list of cardService.cardLists" [value]="list.id">
+                                    {{ list.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <div class="card-modal__props__due-date">
+                            {{ card.dueDate.toString() | date }}
+                        </div>
+
+                        <div class="card-modal__props__priority">
+                            {{ card.priority | priorityFormat }}
+                        </div>
+                    </div>
+                </div>
+
+                <h2>Description</h2>
+                <div class="card-modal__description">
+                    {{card.description}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

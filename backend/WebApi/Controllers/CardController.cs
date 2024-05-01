@@ -6,10 +6,12 @@ using Application.Features.Cards.Commands.UpdateCard;
 using Application.Features.Cards.Queries.GetCard;
 using Application.Features.Cards.Queries.GetCardPaged;
 using MediatR;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
 {
+    [EnableCors("OpenCORSPolicy")]
     [ApiController]
     [Route("cards")]
     public class CardController : ControllerBase

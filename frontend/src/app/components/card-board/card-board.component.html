@@ -1,0 +1,31 @@
+<edit-card-modal />
+<card-modal />
+
+<div cdkDropListGroup class="card-board">
+
+    <card-list *ngFor="let list of this.cardService.cardLists" [cardList]="list" />
+
+    <div class="add-list">
+
+        <div class="add-list__button" *ngIf="!isNewListFormVisible" (click)="this.isNewListFormVisible = true">
+            Add another list
+            <mat-icon>add</mat-icon>
+        </div>
+
+        <div class="add-list__form" *ngIf="isNewListFormVisible">
+
+            <input class="add-list__form__input" placeholder="Enter a list title..." type="text"
+                [(ngModel)]="newListName">
+
+            <div class="add-list__form__buttons">
+
+                <button class="add-list__form__buttons__create"
+                    (click)="this.cardService.createCardList(this.newListName)">Add list</button>
+
+                <button class="add-list__form__buttons__cancel"
+                    (click)="this.isNewListFormVisible = false">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>

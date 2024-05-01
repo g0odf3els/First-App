@@ -5,10 +5,12 @@ using Application.Features.CardLists.Commands.UpdateCardList;
 using Application.Features.CardLists.Queries.GetCardList;
 using Application.Features.CardLists.Queries.GetCardListPagedCommand;
 using MediatR;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
 {
+    [EnableCors("OpenCORSPolicy")]
     [ApiController]
     [Route("cardLists")]
     public class CardListController : ControllerBase

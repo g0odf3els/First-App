@@ -20,6 +20,16 @@ namespace WebApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            string CORSOpenPolicy = "OpenCORSPolicy";
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(
+                  name: CORSOpenPolicy,
+                  builder => {
+                      builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod();
+                  });
+            });
+
             var app = builder.Build();
 
             var serviceScope = app.Services.CreateScope();
@@ -41,6 +51,8 @@ namespace WebApi
             app.MapControllers();
 
             app.UseMiddleware<ExceptionHandlingMiddleware>();
+           
+            app.UseCors(CORSOpenPolicy);
 
             app.Run();
         }

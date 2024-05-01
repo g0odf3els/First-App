@@ -1,0 +1,97 @@
+.create-card-modal {
+    width: 500px;
+    border-radius: 5px;
+}
+
+@media (max-width: 800px) {
+    .create-card-modal {
+        width: 100%;
+        height: 100%;
+
+    }
+}
+
+
+.create-card-modal__header {
+    border-radius: 5px 5px 0px 0px;
+    padding: 10px;
+    display: flex;
+    justify-content: end;
+    background-color: #5A647D;
+    color: white;
+}
+
+.create-card-modal__body {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.create-card-modal__body__card-name {
+    margin: 10px 0px;
+    font-size: 28px;
+    font-weight: 500;
+    border: none;
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    border-color: #cbcbeb;
+}
+
+create-card-modal__body__card:focus,
+input:focus {
+    outline: none;
+}
+
+.create-card-modal__body__props {
+    margin: 10px 0;
+    display: flex;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.create-card-modal__body__props__labels {
+    width: 30%;
+}
+
+.create-card-modal__body__props__inputs {
+    width: 70%;
+}
+
+.create-card-modal__body__props__labels__label {
+    padding: 25px 0px;
+    display: flex;
+    align-items: center;
+    color: #818a9e;
+}
+
+.create-card-modal__body__props__labels__label mat-icon {
+    margin-right: 10px;
+}
+
+.create-card-modal__body__props__inputs mat-form-field {
+    width: 100%;
+}
+
+.create-card-modal__body__buttons {
+    display: flex;
+    gap: 25px;
+}
+
+.create-card-modal__body__buttons button {
+    padding: 10px 25px;
+    width: 50%;
+    font-weight: 18px;
+    font-weight: 500;
+    border: none;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+
+.create-card-modal__body__buttons__create {
+    background-color: #5A647D;
+    color: white;
+}
+
+.create-card-modal__body__buttons__cancel {
+    background-color: white;
+}

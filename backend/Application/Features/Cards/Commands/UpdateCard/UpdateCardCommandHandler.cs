@@ -28,7 +28,7 @@ namespace Application.Features.Cards.Commands.UpdateCard
                 throw new NotFoundException(request.CardId.ToString());
             }
 
-            if (!String.IsNullOrEmpty(request.CardListId.ToString()))
+            if (request.CardListId != Guid.Empty)
             {
                 var cardList = await _cardListRepository.GetByIdAsync(request.CardListId);
 

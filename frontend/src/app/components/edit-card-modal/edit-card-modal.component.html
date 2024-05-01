@@ -1,0 +1,82 @@
+<div class="modal-backdrop" *ngIf="display">
+
+    <div class="modal-content">
+
+        <div class="create-card-modal">
+
+            <div class="create-card-modal__header" (click)="this.display=false">
+                <mat-icon>close</mat-icon>
+            </div>
+
+            <div class="create-card-modal__body">
+
+                <input class="create-card-modal__body__card-name" [(ngModel)]="card.name">
+
+                <div class="create-card-modal__body__props">
+
+                    <div class="create-card-modal__body__props__labels">
+
+                        <div class="create-card-modal__body__props__labels__label">
+                            <mat-icon>list</mat-icon>
+                            List
+                        </div>
+
+                        <div class="create-card-modal__body__props__labels__label">
+                            <mat-icon>calendar_today</mat-icon>
+                            Due date
+                        </div>
+
+                        <div class="create-card-modal__body__props__labels__label">
+                            <mat-icon>sell</mat-icon>
+                            Priority
+                        </div>
+
+                    </div>
+
+                    <div class="create-card-modal__body__props__inputs">
+
+                        <mat-form-field class="create-card-form__body__card-list">
+                            <mat-select [(ngModel)]="card.listId" [value]="card.listId">
+                                <mat-option *ngFor="let list of cardService.cardLists" [value]="list.id">
+                                    {{ list.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <mat-label>Due date</mat-label>
+                            <input matInput [matDatepicker]="picker" [(ngModel)]="card.dueDate">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field class="create-card-modal__body__card-list">
+                            <mat-select placeholder="Priority" [(ngModel)]="card.priority" [value]="card.priority">
+                                <mat-option [value]="0">Low</mat-option>
+                                <mat-option [value]="1">Medium</mat-option>
+                                <mat-option [value]="2">High</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+                </div>
+
+                <h2>Description</h2>
+                <mat-form-field>
+                    <textarea matInput [(ngModel)]="card.description"
+                        placeholder="Write some information..."></textarea>
+                </mat-form-field>
+
+                <div class="create-card-modal__body__buttons">
+                    <button class="create-card-modal__body__buttons__create" (click)="createUpdateCard()">Save</button>
+                    <button class="create-card-modal__body__buttons__cancel"
+                        (click)="this.display=false">Cancel</button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
