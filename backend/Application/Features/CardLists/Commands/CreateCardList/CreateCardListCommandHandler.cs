@@ -25,7 +25,6 @@ namespace Application.Features.CardLists.Commands.CreateCardListCommand
             };
 
             cardList = await _cardListRepository.AddAsync(cardList);
-
             return _mapper.Map<CardListDto>(cardList);
         }
     }

@@ -14,7 +14,12 @@ namespace Infrastructure.Data.Repositories
         }
         public async Task<List<CardList>> GetCardListPagedWithCards(int page, int size)
         {
-            return await _dbContext.Set<CardList>().Include(c => c.Items).Skip((page - 1) * size).Take(size).AsNoTracking().ToListAsync();
+            return await _dbContext.Set<CardList>()
+                .Include(c => c.Items)
+                .Skip((page - 1) * size)
+                .Take(size)
+                .AsNoTracking()
+                .ToListAsync();
         }
     }
 }

@@ -13,6 +13,8 @@ namespace Application.Profile
             CreateMap<Card, CardDto>();
             CreateMap<UpdateCardListCommand, CardList>();
             CreateMap<UpdateCardCommand, Card>();
+            CreateMap<ActionLog, ActionLogDto>();
+            CreateMap<PropertyLog, PropertyLogDto>();
         }
     }
 }

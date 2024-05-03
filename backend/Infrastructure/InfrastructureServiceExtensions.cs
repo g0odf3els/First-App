@@ -20,6 +20,7 @@ namespace Infrastructure
 
             services.AddScoped(typeof(ICardListRepository), typeof(CardListRepository));
 
+            services.AddScoped(typeof(IActionLogRepository), typeof(ActionLogRepository));
         }
     }
 }

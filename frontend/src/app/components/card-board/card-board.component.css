@@ -1,4 +1,28 @@
-.card-board {
+.card-board__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px;
+}
+
+.card-board__header__name {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.card-board__header__history {
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid #E1E1E6;
+    display: flex;
+    font-size: 18px;
+    font-weight: 500;
+    justify-content: space-between;
+    padding: 10px 25px;
+    width: 100px;
+}
+
+.card-board__body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -6,14 +30,15 @@
     gap: 15px;
 }
 
+
 @media (max-width: 800px) {
-    .card-board {
+    .card-board__body {
         flex-direction: column;
     }
 }
 
 .add-list {
-    min-width: 250px;
+    min-width: 350px;
 }
 
 .add-list__button {

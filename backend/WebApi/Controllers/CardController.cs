@@ -60,7 +60,7 @@ namespace WebApi.Controllers
                 CardListId = request.CardListId,
                 Name = request.Name,
                 Description = request.Description,
-                DueTime = request.DueTime,
+                DueDate = request.DueTime,
                 Priority = request.Priority,
             }, cancellationToken);
 

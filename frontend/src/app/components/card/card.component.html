@@ -34,7 +34,7 @@
 
     <div class="card__dueDate">
         <mat-icon>calendar_today</mat-icon>
-        {{this.card.dueDate.toString() | date}}
+        {{this.card.dueDate.toString() | date: 'MMM d, yyyy'}}
     </div>
 
     <div class="card__priority">

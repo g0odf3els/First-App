@@ -1,0 +1,13 @@
+<div *ngIf="open" class="sidebar">
+
+    <div class="history-sidebar__header">
+        <div> History</div>
+        <mat-icon (click)="this.openChange.emit(false)">close</mat-icon>
+    </div>
+
+    <action-history [actionLogs]="this.actionLogs" />
+    <div *ngIf="!this.isEndReached" class="history-sidebar__load-more" (click)="this.loadActionLogs()">
+        <mat-icon>replay</mat-icon>
+        Show more
+    </div>
+</div>

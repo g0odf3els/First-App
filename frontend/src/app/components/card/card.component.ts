@@ -7,7 +7,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 
-import { DateFormatPipe } from '../../pipes/date-format.pipe';
 import { PriorityFormatPipe } from '../../pipes/priority-format.pipe';
 
 import { CardService } from '../../services/card.service';
@@ -24,7 +23,6 @@ import { Card } from '../../data/models/card';
     MatMenuModule,
     MatButtonModule,
     MatSelectModule,
-    DateFormatPipe,
     PriorityFormatPipe
   ],
   templateUrl: './card.component.html',
