@@ -33,6 +33,7 @@ export class HistorySidebarComponent {
       this.loadActionLogs();
     }
   }
+
   ngOnInit() {
     this.loadActionLogs();
   }

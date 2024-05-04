@@ -16,6 +16,7 @@ namespace Infrastructure.Data.Repositories
         {
             return await _dbContext.Set<CardList>()
                 .Include(c => c.Items)
+                .OrderBy(c => c.CreationTime)
                 .Skip((page - 1) * size)
                 .Take(size)
                 .AsNoTracking()

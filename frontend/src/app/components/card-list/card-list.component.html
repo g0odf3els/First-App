@@ -21,14 +21,15 @@
                         <mat-icon>more_vert</mat-icon>
                     </button>
 
-                    <mat-menu #menu="matMenu">
+                    <mat-menu #menu="matMenu" class="list__menu">
 
                         <button mat-menu-item (click)="this.isFormVisible = !this.isFormVisible">
                             <mat-icon>edit</mat-icon>
                             <span>Edit</span>
                         </button>
 
-                        <button mat-menu-item (click)="this.cardService.deleteCardList(this.cardList.id)">
+                        <button mat-menu-item class="list__menu__delete"
+                            (click)="this.cardService.deleteCardList(this.cardList.id)">
                             <mat-icon>delete</mat-icon>
                             <span>Delete</span>
                         </button>

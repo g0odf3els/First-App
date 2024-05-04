@@ -32,7 +32,7 @@ export class CardModalComponent {
         this.card = newCard;
         this.display = true;
 
-        this.actionLogService.loadCardActionLogPaged(this.card.id, 1, 50).subscribe({
+        this.actionLogService.loadCardActionLogPaged(this.card.id, 1, 1000).subscribe({
           next: (data) => {
             this.actionLog = data;
           }

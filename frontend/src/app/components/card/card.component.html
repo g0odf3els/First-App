@@ -10,14 +10,14 @@
                 <mat-icon>more_vert</mat-icon>
             </button>
 
-            <mat-menu #menu="matMenu">
+            <mat-menu class="card__menu" #menu="matMenu">
 
                 <button mat-menu-item (click)="this.cardService.openEditCardModal(this.card)">
                     <mat-icon>edit</mat-icon>
                     <span>Edit</span>
                 </button>
 
-                <button mat-menu-item (click)="this.cardService.deleteCard(this.card.id)">
+                <button mat-menu-item class="card__menu__delete" (click)="this.cardService.deleteCard(this.card.id)">
                     <mat-icon>delete</mat-icon>
                     <span>Delete</span>
                 </button>

@@ -11,6 +11,11 @@ namespace Infrastructure.Data.Context
         public DbSet<ActionLog> ActionLogs { get; set; }
         public DbSet<PropertyLog> PropertyLogs { get; set; }
 
+        static AppDbContext()
+        {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        }
+
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             var actionLogs = new List<ActionLog>();

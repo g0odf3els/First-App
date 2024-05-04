@@ -82,3 +82,16 @@
     margin-top: 15px;
     width: 100%;
 }
+
+.card__menu {
+    min-width: 150px;
+}
+
+.card__menu__delete {
+    color: #FF0000;
+    width: 200px;
+}
+
+.card__menu__delete mat-icon {
+    color: #FF0000;
+}

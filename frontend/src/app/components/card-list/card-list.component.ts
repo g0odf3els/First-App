@@ -43,6 +43,16 @@ export class CardListComponent {
 
   constructor(public cardService: CardService) { }
 
+  ngOnInit() {
+    if (this.cardList && this.cardList.items) {
+      this.cardList.items.sort((a, b) => {
+        if (a.dueDate < b.dueDate) return -1;
+        if (a.dueDate > b.dueDate) return 1;
+        return 0;
+      });
+    }
+  }
+
   updateList() {
     this.cardService.updateCardList(this.cardList.id, this.newListName);
     this.isFormVisible = false;

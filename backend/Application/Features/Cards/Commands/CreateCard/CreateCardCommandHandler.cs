@@ -31,6 +31,7 @@ namespace Application.Features.Cards.Commands.CreateCard
 
             var card = new Card()
             {
+                CreationTime = DateTime.UtcNow,
                 ListId = request.CardListId,
                 Name = request.Name,
                 Description = request.Description,

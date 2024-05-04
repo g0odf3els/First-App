@@ -21,6 +21,7 @@ namespace Application.Features.CardLists.Commands.CreateCardListCommand
         {
             var cardList = new CardList()
             {
+                CreationTime = DateTime.UtcNow,
                 Name = request.Name
             };
 

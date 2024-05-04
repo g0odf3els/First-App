@@ -1,5 +1,7 @@
 .card-list {
     width: 350px;
+    min-height: 500px;
+    ;
 }
 
 @media (max-width: 800px) {
@@ -90,4 +92,17 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+.list__menu {
+    min-width: 150px;
+}
+
+.list__menu__delete {
+    color: #FF0000;
+    width: 200px;
+}
+
+.list__menu__delete mat-icon {
+    color: #FF0000;
 }

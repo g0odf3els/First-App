@@ -32,14 +32,18 @@
 .card-modal__body__header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .card-modal__body__header__name {
     font-size: 28px;
     font-weight: 500;
+    text-wrap: wrap;
+    line-height: 35px;
 }
 
 .card-modal__body__header__edit {
+    margin-left: 15px;
     display: flex;
     align-items: center;
     font-size: 18px;

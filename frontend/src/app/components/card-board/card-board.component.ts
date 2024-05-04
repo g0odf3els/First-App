@@ -62,7 +62,7 @@ export class CardBoardComponent {
     this.cardService.cardListsUpdated$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(() => {
-        this.cardService.loadCardListsPaged(1, 160);
+        this.cardService.loadCardListsPaged(1, 1000);
       });
 
     this.cardService.error
