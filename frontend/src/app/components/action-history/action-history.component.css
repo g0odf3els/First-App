@@ -1,0 +1,20 @@
+.action-history__item {
+    padding: 10px 0px;
+    display: flex;
+    flex-direction: column;
+    color: #686F87;
+    align-content: center;
+    font-weight: 500;
+}
+
+.action-history__item__card-name {
+    color: black;
+}
+
+.mat-icon {
+    vertical-align: middle;
+}
+
+li {
+    color: #686F87;
+}

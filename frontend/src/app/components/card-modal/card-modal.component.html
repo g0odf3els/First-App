@@ -1,0 +1,78 @@
+<div class="modal-backdrop" *ngIf="display">
+    <div class="modal-content">
+        <div class="card-modal">
+
+            <div class="card-modal__header" (click)="display = false">
+                <mat-icon>close</mat-icon>
+            </div>
+
+            <div class="card-modal__content">
+                <div class="card-modal__body">
+
+                    <div class="card-modal__body__header">
+                        <div class="card-modal__body__header__name">
+                            {{ card.name }}
+                        </div>
+                        <div class="card-modal__body__header__edit" (click)="editCard()">
+                            <mat-icon>edit</mat-icon>
+                            Edit card
+                        </div>
+                    </div>
+
+                    <div class="body-data">
+
+                        <div class="body-data__labels">
+
+                            <div class="body-data__label">
+                                <mat-icon>list</mat-icon>
+                                List
+                            </div>
+
+                            <div class="body-data__label">
+                                <mat-icon>calendar_today</mat-icon>
+                                Due date
+                            </div>
+
+                            <div class="body-data__label">
+                                <mat-icon>sell</mat-icon>
+                                Priority
+                            </div>
+
+                        </div>
+
+                        <div class="body-data__values">
+
+                            <mat-form-field class="body-data__card-list">
+                                <mat-select [(ngModel)]="card.listId" (selectionChange)="onListChange($event)">
+                                    <mat-option *ngFor="let list of cardService.cardLists" [value]="list.id">
+                                        {{ list.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <div class="body-data__due-date">
+                                {{ card.dueDate.toString() | date }}
+                            </div>
+
+                            <div class="body-data__priority">
+                                {{ card.priority | priorityFormat }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Description</h2>
+
+                    <div class="body__description">
+                        {{card.description}}
+                    </div>
+                </div>
+
+                <div class="card-modal__action-log">
+                    <h2>Activity</h2>
+                    <action-history [actionLogs]="this.actionLog"></action-history>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

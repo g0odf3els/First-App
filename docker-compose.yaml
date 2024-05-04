@@ -1,0 +1,52 @@
+networks:
+  tasks:
+    driver: bridge
+
+services:
+  frontend:
+    image: frontend:latest
+    container_name: frontend
+    depends_on:
+      - "backend"
+    build:
+      context: frontend/.
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    networks:
+      - tasks
+  backend:
+    container_name: backend
+    restart: always
+    build:
+      context: backend/.
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    links:
+      - postgres
+    environment:
+      PostgresSQLConnection:ConnectionString: "Server=postgres;Database=contactdb;username=root;password=root"
+    networks:
+      - tasks
+  postgres:
+    container_name: pg_container
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: contactdb
+    ports:
+      - 5432:5432
+    volumes:
+      - dbdata1:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U root -d contactdb" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - tasks
+volumes:
+  dbdata1:

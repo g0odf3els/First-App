@@ -1,0 +1,90 @@
+.card-board__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px;
+}
+
+.card-board__header__name {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.card-board__header__history {
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid #E1E1E6;
+    display: flex;
+    font-size: 18px;
+    font-weight: 500;
+    justify-content: space-between;
+    padding: 10px 25px;
+    width: 100px;
+}
+
+.card-board__body {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 25px;
+    gap: 15px;
+}
+
+
+@media (max-width: 800px) {
+    .card-board__body {
+        flex-direction: column;
+    }
+}
+
+.add-list {
+    min-width: 350px;
+}
+
+.add-list__button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 27px;
+    padding: 10px 0;
+    border-width: 1px 0 1px 0;
+    border-style: solid;
+    border-color: #E1E1E6;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.add-list__form__input {
+    width: 100%;
+    padding: 14px 10px;
+    box-sizing: border-box;
+    background-color: #F0F0F5;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    border: none;
+    border-radius: 4px;
+}
+
+.add-list__form__buttons {
+    margin-top: 20px;
+    display: flex;
+    gap: 5px;
+}
+
+.add-list__form__buttons button {
+    padding: 14px 25px;
+    width: 50%;
+    font-weight: 18px;
+    font-weight: 500;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    border: none;
+    border-radius: 4px;
+}
+
+.add-list__form__buttons__create {
+    background-color: #5A647D;
+    color: white;
+}
+
+.add-list__form__buttons__cancel {
+    background-color: white;
+}
