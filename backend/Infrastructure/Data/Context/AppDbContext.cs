@@ -18,8 +18,8 @@ namespace Infrastructure.Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var list1 = new CardList { Name = "Urgent Tasks" };
-            var list2 = new CardList { Name = "Long-term Goals" };
+            var list1 = new CardList { Id = Guid.NewGuid(), Name = "Urgent Tasks" };
+            var list2 = new CardList { Id = Guid.NewGuid(), Name = "Long-term Goals" };
 
             modelBuilder.Entity<CardList>().HasData(list1, list2);
 
@@ -27,6 +27,7 @@ namespace Infrastructure.Data.Context
             {
                 new Card
                 {
+                    Id = Guid.NewGuid(),
                     Name = "Finish Project Proposal",
                     Description = "Complete the proposal for upcoming project.",
                     DueDate = DateTime.Today.AddDays(3),
@@ -35,6 +36,7 @@ namespace Infrastructure.Data.Context
                 },
                 new Card
                 {
+                    Id = Guid.NewGuid(),
                     Name = "Prepare Presentation",
                     Description = "Prepare slides and materials for the presentation.",
                     DueDate = DateTime.Today.AddDays(2),
@@ -43,6 +45,7 @@ namespace Infrastructure.Data.Context
                 },
                 new Card
                 {
+                    Id = Guid.NewGuid(),
                     Name = "Schedule Meeting with Client",
                     Description = "Arrange a meeting with the client to discuss project details.",
                     DueDate = DateTime.Today.AddDays(1),
@@ -51,6 +54,7 @@ namespace Infrastructure.Data.Context
                 },
                 new Card
                 {
+                    Id = Guid.NewGuid(),
                     Name = "Review Code Changes",
                     Description = "Review and provide feedback on recent code changes.",
                     DueDate = DateTime.Today.AddDays(4),
@@ -59,6 +63,7 @@ namespace Infrastructure.Data.Context
                 },
                 new Card
                 {
+                    Id = Guid.NewGuid(),
                     Name = "Update Documentation",
                     Description = "Update project documentation with latest changes.",
                     DueDate = DateTime.Today.AddDays(5),
@@ -71,6 +76,7 @@ namespace Infrastructure.Data.Context
             {
                 new Card
                 {
+                    Id = Guid.NewGuid(),
                     Name = "Learn New Programming Language",
                     Description = "Start learning Python programming language.",
                     DueDate = DateTime.UtcNow.AddDays(30),
@@ -79,6 +85,7 @@ namespace Infrastructure.Data.Context
                 },
                 new Card
                 {
+                    Id = Guid.NewGuid(),
                     Name = "Complete Online Course",
                     Description = "Finish the online course on machine learning.",
                     DueDate = DateTime.UtcNow.AddDays(45),
@@ -87,6 +94,7 @@ namespace Infrastructure.Data.Context
                 },
                 new Card
                 {
+                    Id = Guid.NewGuid(),
                     Name = "Read 10 Books",
                     Description = "Set a goal to read 10 books this year.",
                     DueDate = DateTime.UtcNow.AddDays(365),
@@ -95,6 +103,7 @@ namespace Infrastructure.Data.Context
                 },
                 new Card
                 {
+                    Id = Guid.NewGuid(),
                     Name = "Travel to Europe",
                     Description = "Plan and save for a trip to Europe next summer.",
                     DueDate = DateTime.UtcNow.AddYears(1).AddMonths(6),
@@ -103,6 +112,7 @@ namespace Infrastructure.Data.Context
                 },
                 new Card
                 {
+                    Id = Guid.NewGuid(),
                     Name = "Start Personal Blog",
                     Description = "Begin writing and publishing articles on a personal blog.",
                     DueDate = DateTime.UtcNow.AddDays(7),
