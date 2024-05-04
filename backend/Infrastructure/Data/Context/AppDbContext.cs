@@ -18,112 +18,152 @@ namespace Infrastructure.Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var list1 = new CardList { Id = Guid.NewGuid(), Name = "Urgent Tasks" };
-            var list2 = new CardList { Id = Guid.NewGuid(), Name = "Long-term Goals" };
+            CardList toDoList = new CardList
+            {
+                CreationTime = DateTime.Now.AddDays(7),
+                Id = Guid.NewGuid(),
+                Name = "To Do"
+            };
+            CardList InProcessList = new CardList
+            {
+                CreationTime = DateTime.Now.AddDays(10),
+                Id = Guid.NewGuid(),
+                Name = "In Process"
+            };
+            CardList FinishedList = new CardList
+            {
+                CreationTime = DateTime.Now.AddDays(12),
+                Id = Guid.NewGuid(),
+                Name = "Finished"
+            };
 
-            modelBuilder.Entity<CardList>().HasData(list1, list2);
+            modelBuilder.Entity<CardList>().HasData([toDoList, InProcessList, FinishedList]);
 
-            var urgentTasks = new[]
+            var todoTasks = new List<Card>
             {
                 new Card
                 {
                     Id = Guid.NewGuid(),
-                    Name = "Finish Project Proposal",
-                    Description = "Complete the proposal for upcoming project.",
-                    DueDate = DateTime.Today.AddDays(3),
-                    Priority = Priority.High,
-                    ListId = list1.Id
-                },
-                new Card
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Prepare Presentation",
-                    Description = "Prepare slides and materials for the presentation.",
-                    DueDate = DateTime.Today.AddDays(2),
-                    Priority = Priority.High,
-                    ListId = list1.Id
-                },
-                new Card
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Schedule Meeting with Client",
-                    Description = "Arrange a meeting with the client to discuss project details.",
-                    DueDate = DateTime.Today.AddDays(1),
-                    Priority = Priority.High,
-                    ListId = list1.Id
-                },
-                new Card
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Review Code Changes",
-                    Description = "Review and provide feedback on recent code changes.",
-                    DueDate = DateTime.Today.AddDays(4),
+                    Name = "Setup email notification",
+                    Description = "Configure email notification system for user alerts.",
+                    DueDate = DateTime.Now.AddDays(7),
                     Priority = Priority.Medium,
-                    ListId = list1.Id
+                    ListId = toDoList.Id,
+                },
+                 new Card
+                 {
+                    Id = Guid.NewGuid(),
+                    Name = "Design landing page",
+                    Description = "Create a visually appealing landing page for the application.",
+                    DueDate = DateTime.Now.AddDays(10),
+                    Priority = Priority.High,
+                    ListId = toDoList.Id,
+                 },
+                 new Card
+                 {
+                    Id = Guid.NewGuid(),
+                    Name = "Write unit tests",
+                    Description = "Implement unit tests for critical components of the system.",
+                    DueDate = DateTime.Now.AddDays(3),
+                    Priority = Priority.High,
+                    ListId = toDoList.Id,
                 },
                 new Card
                 {
                     Id = Guid.NewGuid(),
-                    Name = "Update Documentation",
-                    Description = "Update project documentation with latest changes.",
-                    DueDate = DateTime.Today.AddDays(5),
+                    Name = "Refactor authentication logic",
+                    Description = "Optimize authentication logic for better security.",
+                    DueDate = DateTime.Now.AddDays(5),
                     Priority = Priority.Medium,
-                    ListId = list1.Id
+                    ListId = toDoList.Id,
+                },
+                new Card
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Update documentation",
+                    Description = "Update project documentation with recent changes and additions.",
+                    DueDate = DateTime.Now.AddDays(2),
+                    Priority = Priority.Low,
+                    ListId = toDoList.Id,
                 }
             };
 
-            var longTermGoals = new[]
+            var inProcessTasks = new List<Card>
             {
                 new Card
                 {
                     Id = Guid.NewGuid(),
-                    Name = "Learn New Programming Language",
-                    Description = "Start learning Python programming language.",
-                    DueDate = DateTime.UtcNow.AddDays(30),
-                    Priority = Priority.Low,
-                    ListId = list2.Id
-                },
-                new Card
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Complete Online Course",
-                    Description = "Finish the online course on machine learning.",
-                    DueDate = DateTime.UtcNow.AddDays(45),
-                    Priority = Priority.Low,
-                    ListId = list2.Id
-                },
-                new Card
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Read 10 Books",
-                    Description = "Set a goal to read 10 books this year.",
-                    DueDate = DateTime.UtcNow.AddDays(365),
-                    Priority = Priority.Medium,
-                    ListId = list2.Id
-                },
-                new Card
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Travel to Europe",
-                    Description = "Plan and save for a trip to Europe next summer.",
-                    DueDate = DateTime.UtcNow.AddYears(1).AddMonths(6),
+                    Name = "Implement file upload feature",
+                    Description = "Develop functionality to allow users to upload files.",
+                    DueDate = DateTime.Now.AddDays(7),
                     Priority = Priority.High,
-                    ListId = list2.Id
+                    ListId = InProcessList.Id,
                 },
                 new Card
                 {
                     Id = Guid.NewGuid(),
-                    Name = "Start Personal Blog",
-                    Description = "Begin writing and publishing articles on a personal blog.",
-                    DueDate = DateTime.UtcNow.AddDays(7),
+                    Name = "Optimize database queries",
+                    Description = "Improve database query performance by optimizing queries.",
+                    DueDate = DateTime.Now.AddDays(4),
                     Priority = Priority.Medium,
-                    ListId = list2.Id
+                    ListId = InProcessList.Id,
+                },
+                new Card
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Integrate third-party API",
+                    Description = "Integrate a third-party API for geolocation services.",
+                    DueDate = DateTime.Now.AddDays(6),
+                    Priority = Priority.Medium,
+                    ListId = InProcessList.Id,
+                },
+                new Card
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Design user profile page",
+                    Description = "Create a user profile page with customizable settings.",
+                    DueDate = DateTime.Now.AddDays(8),
+                    Priority = Priority.High,
+                    ListId = InProcessList.Id,
+                },
+                new Card
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Implement error logging",
+                    Description = "Implement a system for logging errors and exceptions.",
+                    DueDate = DateTime.Now.AddDays(3),
+                    Priority = Priority.Medium,
+                    ListId = InProcessList.Id,
                 }
             };
 
-            modelBuilder.Entity<CardList>().HasData(urgentTasks, longTermGoals);
-            base.OnModelCreating(modelBuilder);
+            var finishedTasks = new List<Card>
+            {
+                new Card
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Review code",
+                    Description = "Perform code review to ensure quality and adherence to coding standards.",
+                    DueDate = DateTime.Now.AddDays(-2),
+                    Priority = Priority.Low,
+                    ListId = FinishedList.Id,
+                },
+                new Card
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Deploy to production",
+                    Description = "Deploy the latest version of the application to the production server.",
+                    DueDate = DateTime.Now.AddDays(-1),
+                    Priority = Priority.High,
+                    ListId = FinishedList.Id,
+                }
+            };
+            modelBuilder.Entity<Card>().HasData(todoTasks);
+            modelBuilder.Entity<Card>().HasData(inProcessTasks); 
+            modelBuilder.Entity<Card>().HasData(finishedTasks);
+
         }
+
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             var actionLogs = new List<ActionLog>();
