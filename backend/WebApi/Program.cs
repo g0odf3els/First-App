@@ -33,6 +33,10 @@ namespace WebApi
 
             var app = builder.Build();
 
+            var serviceScope = app.Services.CreateScope();
+            var dataContext = serviceScope.ServiceProvider.GetService<AppDbContext>();
+            dataContext?.Database.EnsureCreated();
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -47,28 +51,7 @@ namespace WebApi
            
             app.UseCors(CORSOpenPolicy);
 
-            SeedDatabase(app);
-
             app.Run();
         }
-
-        static void SeedDatabase(WebApplication app)
-        {
-            using var scope = app.Services.CreateScope();
-            var services = scope.ServiceProvider;
-
-            try
-            {
-                var context = services.GetRequiredService<AppDbContext>();
-                context.Database.EnsureCreated();
-                SeedData.Initialize(services);
-            }
-            catch (Exception ex)
-            {
-                var logger = services.GetRequiredService<ILogger<Program>>();
-                logger.LogError(ex, "An error occurred seeding the DB. {exceptionMessage}", ex.Message);
-            }
-        }
-
     }
 }
