@@ -27,7 +27,7 @@ namespace Infrastructure.Data
             var list2 = new CardList { Name = "Long-term Goals" };
             dbContext.Set<CardList>().Add(list1);
             dbContext.Set<CardList>().Add(list2);
-            dbContext.SaveChangesAsync();
+            dbContext.SaveChangesAsync().Wait();
 
             var urgentTasks = new[]
             {
@@ -117,9 +117,9 @@ namespace Infrastructure.Data
                 }
             };
 
-            dbContext.Set<Card>().AddRangeAsync(urgentTasks);
-            dbContext.Set<Card>().AddRangeAsync(longTermGoals);
-            dbContext.SaveChangesAsync();
+            dbContext.Set<Card>().AddRange(urgentTasks);
+            dbContext.Set<Card>().AddRange(longTermGoals);
+            dbContext.SaveChangesAsync().Wait();
         }
     }
 }
