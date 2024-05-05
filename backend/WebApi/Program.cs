@@ -2,7 +2,6 @@ using WebApi.Middleware;
 using Infrastructure;
 using Application;
 using Infrastructure.Data.Context;
-using Infrastructure.Data;
 
 namespace WebApi
 {

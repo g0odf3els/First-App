@@ -26,7 +26,7 @@ export class CardService {
   private cardListsUpdatedSource = new Subject<void>();
   private cardCreateSource = new Subject<Card>();
   private cardSelectSource = new Subject<Card>();
-  private errorSource = new Subject<string>();
+  private errorSource = new Subject<any>();
 
   cardListsUpdated$ = this.cardListsUpdatedSource.asObservable();
   cardCreated$ = this.cardCreateSource.asObservable();

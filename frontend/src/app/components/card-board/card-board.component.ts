@@ -68,7 +68,8 @@ export class CardBoardComponent {
     this.cardService.error
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((error) => {
-        this.openSnackBar("Error");
+        this.openSnackBar(error);
+        this.cardService.loadCardListsPaged(1, 1000);
       });
   }
 
@@ -77,10 +78,23 @@ export class CardBoardComponent {
     this.unsubscribe$.complete();
   }
 
-  openSnackBar(message: string) {
-    this._snackBar.open(message, 'Close', {
+  openSnackBar(message: any) {
+    this._snackBar.open(this.formatErrorForSnackBar(message.error), 'Close', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
     });
+  }
+
+  formatErrorForSnackBar(error: any): string {
+    let formattedError = '';
+    if (error && error.detail && error.errors) {
+      formattedError = `${error.detail}: `;
+      for (const key in error.errors) {
+        if (error.errors.hasOwnProperty(key)) {
+          formattedError += `${key}: ${error.errors[key].join('. ')}; `;
+        }
+      }
+    }
+    return formattedError;
   }
 }

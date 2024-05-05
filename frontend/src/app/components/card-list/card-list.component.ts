@@ -53,6 +53,12 @@ export class CardListComponent {
     }
   }
 
+  ngOnChanges() {
+    if (this.cardList) {
+      this.newListName = this.cardList.name;
+    }
+  }
+
   updateList() {
     this.cardService.updateCardList(this.cardList.id, this.newListName);
     this.isFormVisible = false;

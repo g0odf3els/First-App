@@ -6,7 +6,9 @@ namespace Application.Features.CardLists.Commands.CreateCardListCommand
     {
         public CreateCardListCommandValidator()
         {
-            RuleFor(c => c.Name).NotEmpty();
+            RuleFor(c => c.Name)
+                 .NotEmpty()
+                 .MaximumLength(200);
         }
     }
 }
