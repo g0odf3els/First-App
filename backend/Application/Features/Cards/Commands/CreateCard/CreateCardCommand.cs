@@ -10,7 +10,7 @@ namespace Application.Features.Cards.Commands.CreateCard
 
         public string Name { get; set; }
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public DateTime DueTime { get; set; }
 

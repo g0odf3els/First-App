@@ -4,7 +4,7 @@ namespace Application.Contracts
 {
     public interface IActionLogRepository : IGenericRepository<ActionLog>
     {
-        Task<List<ActionLog>> GetActionLogPagedWithAffectedProperties(int page, int size);
-        Task<List<ActionLog>> GetCardActionLogPagedWithAffectedProperties(Guid id, int page, int size);
+        Task<List<ActionLog>> GetBoardActionLogPaged(Guid boardId, int page, int size);
+        Task<List<ActionLog>> GetCardActionLogPaged(Guid cardId, int page, int size);
     }
 }

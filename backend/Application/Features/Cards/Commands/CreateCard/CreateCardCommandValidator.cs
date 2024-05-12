@@ -12,7 +12,7 @@ namespace Application.Features.Cards.Commands.CreateCard
                 .NotEmpty()
                 .MaximumLength(150);
 
-            RuleFor(c => c.Description).MaximumLength(200); 
+            RuleFor(c => c.Description).Length(1, 2000).When(c => !string.IsNullOrEmpty(c.Description));
 
             RuleFor(c => c.Priority).IsInEnum();
         }

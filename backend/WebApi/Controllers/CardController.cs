@@ -1,5 +1,4 @@
 ﻿using Application.DTOs;
-using Application.Features.CardLists.Queries.GetCardListPagedCommand;
 using Application.Features.Cards.Commands.CreateCard;
 using Application.Features.Cards.Commands.DeleteCard;
 using Application.Features.Cards.Commands.UpdateCard;

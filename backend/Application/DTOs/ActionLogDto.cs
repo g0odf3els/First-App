@@ -8,7 +8,7 @@ namespace Application.DTOs
         public string EntityName { get; set; }
         public string EntityType { get; set; }
         public ActionType Action { get; set; }
-        public DateTime Timestamp { get; set; }
+        public DateTime CreationTime { get; set; }
         public IEnumerable<PropertyLogDto> AffectedProperties { get; set; }
     }
 }
