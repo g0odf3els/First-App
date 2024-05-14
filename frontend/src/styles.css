@@ -13,16 +13,6 @@ body {
     min-height: 100%;
 }
 
-.modal {
-    width: 600px;
-}
-
-@media(max-width: 800px) {
-    .modal {
-        width: 100%;
-    }
-}
-
 .modal__header {
     padding: 15px;
     display: flex;
@@ -33,10 +23,6 @@ body {
     border-radius: 5px 5px 0px 0px;
     background-color: #5A647D;
     color: white;
-}
-
-.modal__body {
-    padding: 25px;
 }
 
 .modal__buttons {

@@ -5,6 +5,7 @@
 .board-edit-modal {
     display: flex;
     flex-direction: column;
+    padding: 25px;
 }
 
 .form-group {

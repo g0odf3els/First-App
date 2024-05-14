@@ -17,6 +17,14 @@ namespace Infrastructure.Data.Context
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ActionLog>()
+                .HasOne(a => a.Board)
+                .WithMany(b => b.ActionLogs)
+                .HasForeignKey(a => a.BoardId);
+        }
+
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             var actionLogs = new List<ActionLog>();
@@ -45,96 +53,95 @@ namespace Infrastructure.Data.Context
                     actionLog.BoardId = (Guid)entry.Property("Id").CurrentValue;
                 }
 
-                switch (entry.State)
+                if (entry.State == EntityState.Added)
                 {
-                    case EntityState.Added:
-                        actionLog.Action = ActionType.Added;
+                    actionLog.Action = ActionType.Added;
 
-                        foreach (var property in entry.OriginalValues.Properties)
+                    foreach (var property in entry.OriginalValues.Properties)
+                    {
+                        var originalValue = entry.OriginalValues[property]?.ToString();
+
+                        if (property.Name == "ListId")
                         {
-                            var originalValue = entry.OriginalValues[property]?.ToString();
+                            var oldList = CardLists.Find(new Guid(originalValue));
 
+                            actionLog.AffectedProperties.Add(
+                                new PropertyLog
+                                {
+                                    PropertyName = "ListName",
+                                    NewValue = oldList?.Name,
+                                });
+                        }
+
+                        actionLog.AffectedProperties.Add(
+                            new PropertyLog
+                            {
+                                PropertyName = property.Name,
+                                NewValue = originalValue,
+                            });
+                    }
+                }
+                else if (entry.State == EntityState.Modified)
+                {
+                    actionLog.Action = ActionType.Modified;
+
+                    foreach (var property in entry.OriginalValues.Properties)
+                    {
+                        var originalValue = entry.OriginalValues[property]?.ToString();
+                        var currentValue = entry.CurrentValues[property]?.ToString();
+
+                        if (originalValue != currentValue)
+                        {
                             if (property.Name == "ListId")
                             {
                                 var oldList = CardLists.Find(new Guid(originalValue));
+                                var newList = CardLists.Find(new Guid(currentValue));
 
-                                actionLog.AffectedProperties.Add(
-                                    new PropertyLog
-                                    {
-                                        PropertyName = "ListName",
-                                        NewValue = oldList?.Name,
-                                    });
+                                actionLog.AffectedProperties.Add(new PropertyLog
+                                {
+                                    PropertyName = "ListName",
+                                    OldValue = oldList?.Name,
+                                    NewValue = newList?.Name,
+                                });
                             }
 
                             actionLog.AffectedProperties.Add(
                                 new PropertyLog
                                 {
                                     PropertyName = property.Name,
-                                    NewValue = originalValue,
+                                    OldValue = originalValue,
+                                    NewValue = currentValue,
                                 });
                         }
-                        break;
+                    }
+                }
+                else if (entry.State == EntityState.Deleted)
+                {
+                    actionLog.Action = ActionType.Deleted;
 
-                    case EntityState.Modified:
-                        actionLog.Action = ActionType.Modified;
+                    foreach (var property in entry.OriginalValues.Properties)
+                    {
+                        var originalValue = entry.OriginalValues[property]?.ToString();
 
-                        foreach (var property in entry.OriginalValues.Properties)
+                        if (property.Name == "ListId")
                         {
-                            var originalValue = entry.OriginalValues[property]?.ToString();
-                            var currentValue = entry.CurrentValues[property]?.ToString();
-
-                            if (originalValue != currentValue)
-                            {
-                                if (property.Name == "ListId")
-                                {
-                                    var oldList = CardLists.Find(new Guid(originalValue));
-                                    var newList = CardLists.Find(new Guid(currentValue));
-
-                                    actionLog.AffectedProperties.Add(new PropertyLog
-                                    {
-                                        PropertyName = "ListName",
-                                        OldValue = oldList?.Name,
-                                        NewValue = newList?.Name,
-                                    });
-                                }
-
-                                actionLog.AffectedProperties.Add(
-                                    new PropertyLog
-                                    {
-                                        PropertyName = property.Name,
-                                        OldValue = originalValue,
-                                        NewValue = currentValue,
-                                    });
-                            }
-                        }
-                        break;
-
-                    case EntityState.Deleted:
-                        actionLog.Action = ActionType.Deleted;
-
-                        foreach (var property in entry.OriginalValues.Properties)
-                        {
-                            var originalValue = entry.OriginalValues[property]?.ToString();
-
-                            if (property.Name == "ListId")
-                            {
-                                var oldList = CardLists.Find(new Guid(originalValue));
-
-                                actionLog.AffectedProperties.Add(new PropertyLog
-                                {
-                                    PropertyName = "ListName",
-                                    OldValue = oldList.Name,
-                                });
-                            }
+                            var oldList = CardLists.Find(new Guid(originalValue));
 
                             actionLog.AffectedProperties.Add(new PropertyLog
                             {
-                                PropertyName = property.Name,
-                                OldValue = originalValue,
+                                PropertyName = "ListName",
+                                OldValue = oldList.Name,
                             });
                         }
-                        break;
+
+                        actionLog.AffectedProperties.Add(new PropertyLog
+                        {
+                            PropertyName = property.Name,
+                            OldValue = originalValue,
+                        });
+                    }
                 }
+
                 actionLogs.Add(actionLog);
             }
 

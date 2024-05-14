@@ -9,5 +9,7 @@ namespace Domain.Entities
         public IList<Card> Cards { get; private set; } = new List<Card>();
 
         public IList<CardList> CardLists { get; private set; } = new List<CardList>();
+
+        public IList<ActionLog> ActionLogs { get; private set; } = new List<ActionLog>();
     }
 }

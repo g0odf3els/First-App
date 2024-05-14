@@ -11,3 +11,12 @@
 .board-list-item:hover {
     background-color: lightgrey;
 }
+
+.board-list__delete {
+    color: #FF0000;
+    width: 200px;
+}
+
+.board-list__delete mat-icon {
+    color: #FF0000;
+}

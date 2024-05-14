@@ -6,19 +6,21 @@ import { BoardComponent } from "./components/board/board.component";
 import { Board } from './data/models/board';
 import { BoardEditModalComponent } from './components/board-edit-modal/board-edit-modal.component';
 import { MatDialog } from '@angular/material/dialog';
+import { BoardActionHistoryComponent } from "./components/board-action-history/board-action-history.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  imports: [CommonModule, BoardListComponent, BoardComponent]
+  imports: [CommonModule, BoardListComponent, BoardComponent, BoardActionHistoryComponent]
 })
 export class AppComponent {
 
   constructor(public dialog: MatDialog, public boardService: BoardService) { }
 
   isBoardListVisible = true;
+  isBoardHistoryVisible = false;
 
   ngOnInit() {
     this.boardService.loadBoardsPaged(1, 50);

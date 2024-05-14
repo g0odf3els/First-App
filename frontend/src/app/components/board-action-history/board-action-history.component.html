@@ -1,0 +1,15 @@
+<div class="board-action-history">
+
+    <div class="modal__header">
+        History
+        <mat-icon (click)="close()">close</mat-icon>
+    </div>
+
+    <app-action-history [actionLogs]="actionLogs"></app-action-history>
+
+    <div *ngIf="!this.isEndReached" class="history-sidebar__load-more" (click)="this.loadActionLogs()">
+        <mat-icon>replay</mat-icon>
+        Show more
+    </div>
+
+</div>

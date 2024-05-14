@@ -1,3 +1,7 @@
+.card-edit-modal {
+    padding: 25px;
+}
+
 .card-edit-modal__name {
     margin: 10px 0px;
     width: 100%;

@@ -1,0 +1,113 @@
+<div class="action-history">
+    <ul>
+        <div *ngFor="let action of actionLogs">
+            @if (action.entityType == "CardList") {
+            <li>
+                <div class="action-history__item">
+                    @if(action.action == actionType.Added) {
+                    <span>You created <b> {{action.entityName}} </b> list</span>
+                    }
+                    @else if(action.action == actionType.Deleted) {
+                    <span>You deleted <b> {{action.entityName}} </b> list</span>
+                    }
+                    @else if(action.action == actionType.Modified) {
+                    <span>You changed list name from
+                        <b> {{getPropertyLogByPropertyName(action,'Name')?.oldValue}} </b> to
+                        <b> {{getPropertyLogByPropertyName(action,'Name')?.newValue}} </b>
+                    </span>
+                    }
+                    {{ action.creationTime| date: 'MMM d '}} at {{ action.creationTime | date: 'h:mm a' }}
+                </div>
+            </li>
+            }
+            @else if(action.entityType === "Card") {
+            @if(action.action == actionType.Added) {
+            <li>
+                <div class="action-history__item">
+                    <span>You added <b class="action-history__item__card-name">
+                            <mat-icon>radio_button_checked</mat-icon>
+                            {{action.entityName}} </b> to
+                        {{getPropertyLogByPropertyName(action, 'ListName')?.newValue}} </span>
+                    {{ action.creationTime| date: 'MMM d '}} at {{ action.creationTime | date: 'h:mm a' }}
+                </div>
+            </li>
+            }
+            @else if(action.action === actionType.Deleted) {
+            <li>
+                <div class="action-history__item">
+                    <span>You deleted <b class="action-history__item__card-name">
+                            <mat-icon>radio_button_checked</mat-icon>
+                            {{action.entityName}} </b> from
+                        {{getPropertyLogByPropertyName(action, 'ListName')?.oldValue}} </span>
+                    {{ action.creationTime| date: 'MMM d '}} at {{ action.creationTime | date: 'h:mm a' }}
+                </div>
+            </li>
+
+            }
+            @else if(action.action === actionType.Modified) {
+            @for(prop of action.affectedProperties; track prop.actionLogId) {
+            @if(prop.propertyName === "Name") {
+            <li>
+                <div class="action-history__item">
+                    <span>You renamed from <b class="action-history__item__card-name">
+                            <mat-icon>radio_button_checked</mat-icon> {{prop.oldValue}}</b>
+                        to <b class="action-history__item__card-name"> <mat-icon>radio_button_checked</mat-icon>
+                            {{prop.newValue}} </b> </span>
+                    {{ action.creationTime| date: 'MMM d '}} at {{ action.creationTime | date: 'h:mm a' }}
+                </div>
+            </li>
+
+            }
+            @else if(prop.propertyName === "Description") {
+            <li>
+                <div class="action-history__item">
+                    <span> You changed the description <b class="action-history__item__card-name">
+                            <mat-icon>radio_button_checked</mat-icon> {{action.entityName}}
+                        </b>
+                    </span>
+                    {{ action.creationTime| date: 'MMM d '}} at {{ action.creationTime | date: 'h:mm a' }}
+                </div>
+            </li>
+            }
+            @else if(prop.propertyName === "Priority") {
+            <li>
+                <div class="action-history__item">
+                    <span>You changed the priority <b
+                            class="action-history__item__card-name"><mat-icon>radio_button_checked</mat-icon>
+                            {{action.entityName}}</b>
+                        from <b> {{prop.oldValue}} </b> to
+                        <b> {{prop.newValue}} </b></span>
+                    {{ action.creationTime| date: 'MMM d '}} at {{ action.creationTime | date: 'h:mm a' }}
+                </div>
+            </li>
+            }
+            @else if(prop.propertyName === "DueDate") {
+            <li>
+                <div class="action-history__item">
+                    <span>You changed the due date <b class="action-history__item__card-name">
+                            <mat-icon>radio_button_checked</mat-icon>
+                            {{action.entityName}}
+                        </b>
+                        from <b> {{ prop.oldValue | date: 'MMM d, y, h:mm a'}} </b> to
+                        <b> {{ prop.newValue | date: 'MMM d, y, h:mm a'}} </b> </span>
+                    {{ action.creationTime| date: 'MMM d '}} at {{ action.creationTime | date: 'h:mm a' }}
+                </div>
+            </li>
+            }
+            @else if(prop.propertyName === "ListName") {
+            <li>
+                <div class="action-history__item">
+                    <span>You moved <b class="action-history__item__card-name"><mat-icon>radio_button_checked</mat-icon>
+                            {{action.entityName}} </b>
+                        from <b> {{prop.oldValue}} </b> to
+                        <b>{{prop.newValue}}</b></span>
+                    {{ action.creationTime| date: 'MMM d '}} at {{ action.creationTime | date: 'h:mm a' }}
+                </div>
+            </li>
+            }
+            }
+            }
+            }
+        </div>
+    </ul>
+</div>

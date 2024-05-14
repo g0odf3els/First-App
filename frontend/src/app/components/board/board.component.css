@@ -6,6 +6,8 @@
 }
 
 .board__header {
+    display: flex;
+    justify-content: space-between;
     padding: 25px;
     box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px;
 }
@@ -16,8 +18,21 @@
     width: fit-content;
 }
 
+.board__history {
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid #E1E1E6;
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 4px 25px;
+    width: 150px;
+    height: fit-content;
+}
+
 .board__change {
-    margin-top: 10px;
+    margin-top: 15px;
     padding: 5px 10px;
     font-weight: 18px;
     font-weight: 500;

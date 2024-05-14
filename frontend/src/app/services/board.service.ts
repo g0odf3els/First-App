@@ -32,9 +32,6 @@ export class BoardService {
       {
         next: (data) => {
           this.boardsSubject.next(data);
-          if (data.length > 0) {
-            this.selectedBoardSubject.next(data[0]);
-          }
         },
         error: (error) => {
           console.log(error);

@@ -7,7 +7,7 @@
 
     <div class="modal__body">
 
-        <form #editForm="ngForm" (ngSubmit)="onSubmit()">
+        <form class="card-edit-modal" #editForm="ngForm" (ngSubmit)="onSubmit()">
 
             <input class="card-edit-modal__name" [(ngModel)]="data.name" name="name" required>
 

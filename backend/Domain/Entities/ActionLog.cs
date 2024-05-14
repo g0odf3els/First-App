@@ -5,6 +5,7 @@ namespace Domain.Entities
 {
     public class ActionLog : BaseEntity
     {
+        public Board Board { get; set; }
         public Guid BoardId { get; set; }
         public Guid EntityId { get; set; }
         public string EntityName { get; set; }

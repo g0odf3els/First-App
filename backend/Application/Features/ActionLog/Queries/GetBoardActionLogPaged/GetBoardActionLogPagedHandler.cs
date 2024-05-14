@@ -29,7 +29,7 @@ namespace Application.Features.ActionHistory.Queries.GetActionHistoryPaged
                 throw new NotFoundException(request.boardId.ToString());
             }
 
-            var actionLogPaged = await _actionLogRepostiry.GetCardActionLogPaged(board.Id, request.Page, request.PageSize);
+            var actionLogPaged = await _actionLogRepostiry.GetBoardActionLogPaged(board.Id, request.Page, request.PageSize);
 
             return _mapper.Map<List<ActionLogDto>>(actionLogPaged);
         }

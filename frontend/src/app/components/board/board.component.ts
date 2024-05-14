@@ -26,6 +26,7 @@ export class BoardComponent {
   constructor(public cardListService: CardListService, public boardService: BoardService) { }
 
   @Output() changeBoardEvent = new EventEmitter<void>;
+  @Output() openHistoryEvent = new EventEmitter<void>;
 
   @Input()
   set board(board: Board | null) {
@@ -53,5 +54,9 @@ export class BoardComponent {
 
   changeBoard() {
     this.changeBoardEvent.emit();
+  }
+
+  openHistory() {
+    this.openHistoryEvent.emit();
   }
 }

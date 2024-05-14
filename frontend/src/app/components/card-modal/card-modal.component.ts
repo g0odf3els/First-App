@@ -12,23 +12,52 @@ import { CardService } from '../../services/card.service';
 
 import { PriorityPipe } from '../../pipes/priority.pipe';
 import { CardEditModalComponent } from '../card-edit-modal/card-edit-modal.component';
+import { ActionLogService } from '../../services/action-log.service';
+import { ActionLog } from '../../data/models/action-log';
+import { ActionHistoryComponent } from "../action-history/action-history.component";
 
 @Component({
   selector: 'app-card-modal',
   standalone: true,
-  imports: [CommonModule, MatIcon, FormsModule, MatSelectModule, PriorityPipe],
   templateUrl: './card-modal.component.html',
-  styleUrl: './card-modal.component.css'
+  styleUrl: './card-modal.component.css',
+  imports: [CommonModule, MatIcon, FormsModule, MatSelectModule, PriorityPipe, ActionHistoryComponent]
 })
 export class CardModalComponent {
+
+  public actionLogs: ActionLog[];
+
+  private _data: Card;
 
   constructor(
     public cardListService: CardListService,
     public cardService: CardService,
+    public actionLogService: ActionLogService,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<CardModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Card,
-  ) { }
+    @Inject(MAT_DIALOG_DATA) public initialData: Card,
+  ) {
+    this.data = initialData;
+  }
+
+  get data(): Card {
+    return this._data;
+  }
+
+  set data(value: Card) {
+    this._data = value;
+    if (this._data) {
+      this.actionLogService.loadCardActionLogPaged(this._data.id, 1, 150)
+        .subscribe({
+          next: (data) => {
+            this.actionLogs = data;
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        })
+    }
+  }
 
   editCard() {
     const dialogRef = this.dialog.open(CardEditModalComponent, {
@@ -55,8 +84,8 @@ export class CardModalComponent {
       next: () => {
         this.cardListService.loadCardListsPaged(this.data.boardId, 1, 50);
       },
-      error: (erorr) => {
-        console.log(erorr);
+      error: (error) => {
+        console.log(error);
       }
     })
   }
