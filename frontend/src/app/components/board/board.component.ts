@@ -4,10 +4,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 
 import { CardListComponent } from "../card-list/card-list.component";
-import { BoardService } from '../../services/board.service';
 import { CardListService } from '../../services/card-list.service';
-import { Board } from '../../data/models/board';
 import { CardList } from '../../data/models/card-list';
+import { BoardService } from '../../services/board.service';
+import { Board } from '../../data/models/board';
 
 @Component({
   selector: 'app-board',
@@ -21,15 +21,17 @@ export class BoardComponent {
   isNewListFormVisible: boolean = false;
   newList: CardList;
 
-  private _board: Board | null;
+  private _board: Board | undefined | null;
 
-  constructor(public cardListService: CardListService, public boardService: BoardService) { }
+  constructor(
+    public cardListService: CardListService,
+    public boardService: BoardService) { }
 
   @Output() changeBoardEvent = new EventEmitter<void>;
   @Output() openHistoryEvent = new EventEmitter<void>;
 
   @Input()
-  set board(board: Board | null) {
+  set board(board: Board | undefined | null) {
 
     this._board = board;
 
@@ -40,7 +42,7 @@ export class BoardComponent {
 
   }
 
-  get board(): Board | null {
+  get board(): Board | undefined | null {
     return this._board;
   }
 

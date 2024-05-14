@@ -1,65 +1,68 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { BoardEditModalComponent } from '../board-edit-modal/board-edit-modal.component';
-import { BoardListItemComponent } from "../board-list-item/board-list-item.component";
-import { BoardService } from '../../services/board.service';
 import { Board } from '../../data/models/board';
+import * as BoardActions from '../../store/board/board.actions';
+import { selectAllBoards, selectLoading, selectSelectedBoard } from '../../store/board/board.selectors';
+import { BoardListItemComponent } from "../board-list-item/board-list-item.component";
 
 @Component({
   selector: 'app-board-list',
-  standalone: true,
   templateUrl: './board-list.component.html',
-  styleUrl: './board-list.component.css',
-  imports: [CommonModule, MatIcon, BoardListItemComponent]
+  styleUrls: ['./board-list.component.css'],
+  standalone: true,
+  imports: [CommonModule, MatIcon, MatProgressSpinnerModule, BoardListItemComponent]
 })
 export class BoardListComponent {
 
-  constructor(public dialog: MatDialog, public boardService: BoardService) { }
-
   @Output() hideEvent = new EventEmitter<void>();
 
+  boards$: Observable<Board[]> = this.store.select(selectAllBoards);
+  selectedBoard$ = this.store.select(selectSelectedBoard);
+  loading$: Observable<boolean> = this.store.select(selectLoading);
+
+  constructor(public dialog: MatDialog, private store: Store) { }
+
   ngOnInit() {
-    this.boardService.loadBoardsPaged(1, 50);
+    this.store.dispatch(BoardActions.loadBoards());
   }
 
   selectBoard(board: Board) {
-    this.boardService.selectedBoardSubject.next(board);
+    this.store.dispatch(BoardActions.selectBoard({ boardId: board.id }));
     this.hideEvent.emit();
   }
 
   createBoard(): void {
-    const dialogRef = this.dialog.open(BoardEditModalComponent,
-      {
-        data: { name: "" }
-      }
-    );
+    const dialogRef = this.dialog.open(BoardEditModalComponent, {
+      data: { name: "" }
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.boardService.createBoard(result);
+        this.store.dispatch(BoardActions.createBoard({ board: result }));
       }
     });
   }
 
   updateBoard(board: Board): void {
-    const dialogRef = this.dialog.open(BoardEditModalComponent,
-      {
-        data: JSON.parse(JSON.stringify(board))
-      }
-    );
+    const dialogRef = this.dialog.open(BoardEditModalComponent, {
+      data: { ...board }
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.boardService.updateBoard(result);
+        this.store.dispatch(BoardActions.updateBoard({ board: result }));
       }
     });
   }
 
   deleteBoard(board: Board): void {
-    this.boardService.deleteBoard(board);
+    this.store.dispatch(BoardActions.deleteBoard({ boardId: board.id }));
   }
 
   hide() {

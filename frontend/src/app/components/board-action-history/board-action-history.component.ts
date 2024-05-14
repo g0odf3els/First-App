@@ -18,7 +18,8 @@ export class BoardActionHistoryComponent {
 
   constructor(public actionLogService: ActionLogService) { }
 
-  @Input() board: Board | null;
+  @Input() board: Board | undefined | null;
+
   @Output() closeEvent = new EventEmitter<boolean>();
 
   actionLogs: ActionLog[] = [];
