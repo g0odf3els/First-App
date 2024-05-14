@@ -6,6 +6,8 @@ namespace Application.DTOs
     {
         public Guid Id { get; set; }
 
+        public Guid BoardId { get; set; }
+
         public Guid ListId { get; set; }
 
         public string Name { get; set; }

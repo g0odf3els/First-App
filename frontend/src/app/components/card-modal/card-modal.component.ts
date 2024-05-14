@@ -1,58 +1,67 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { CardService } from '../../services/card.service';
-import { Subscription } from 'rxjs';
+import { MatIcon } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+
+import { CardListService } from '../../services/card-list.service';
 import { Card } from '../../data/models/card';
-import { PriorityFormatPipe } from "../../pipes/priority-format.pipe";
-import { ActionLog } from '../../data/models/action-log';
-import { ActionLogService } from '../../services/actionLog.service';
-import { ActionHistoryComponent } from "../action-history/action-history.component";
+import { CardService } from '../../services/card.service';
+
+import { PriorityPipe } from '../../pipes/priority.pipe';
+import { CardEditModalComponent } from '../card-edit-modal/card-edit-modal.component';
 
 @Component({
-  selector: 'card-modal',
+  selector: 'app-card-modal',
   standalone: true,
+  imports: [CommonModule, MatIcon, FormsModule, MatSelectModule, PriorityPipe],
   templateUrl: './card-modal.component.html',
-  styleUrl: './card-modal.component.css',
-  imports: [CommonModule, MatIconModule, FormsModule, MatSelectModule, PriorityFormatPipe, ActionHistoryComponent]
+  styleUrl: './card-modal.component.css'
 })
 export class CardModalComponent {
-  card: Card;
-  actionLog: ActionLog[];
-  display: boolean = false;
-  cardShowSubscription: Subscription;
 
-  constructor(public cardService: CardService, public actionLogService: ActionLogService) { }
+  constructor(
+    public cardListService: CardListService,
+    public cardService: CardService,
+    public dialog: MatDialog,
+    public dialogRef: MatDialogRef<CardModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Card,
+  ) { }
 
-  ngOnInit() {
-    this.cardShowSubscription = this.cardService.cardSelected$.subscribe(
-      (newCard) => {
-        this.card = newCard;
-        this.display = true;
+  editCard() {
+    const dialogRef = this.dialog.open(CardEditModalComponent, {
+      data: Object.assign({}, this.data)
+    });
 
-        this.actionLogService.loadCardActionLogPaged(this.card.id, 1, 1000).subscribe({
-          next: (data) => {
-            this.actionLog = data;
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.cardService.updateCard(result).subscribe({
+          next: () => {
+            this.data = result;
+            this.cardListService.loadCardListsPaged(this.data.boardId, 1, 50);
+          },
+          error: (error) => {
+            console.log(error);
           }
         })
       }
-    );
-  }
-
-  ngOnDestroy() {
-    if (this.cardShowSubscription) {
-      this.cardShowSubscription.unsubscribe();
-    }
-  }
-
-  editCard() {
-    this.display = false;
-    this.cardService.openEditCardModal(this.card);
+    });
   }
 
   onListChange(event: MatSelectChange) {
-    this.cardService.updateCard(this.card);
+    this.cardService.updateCard(this.data).subscribe({
+      next: () => {
+        this.cardListService.loadCardListsPaged(this.data.boardId, 1, 50);
+      },
+      error: (erorr) => {
+        console.log(erorr);
+      }
+    })
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

@@ -1,0 +1,49 @@
+.card-edit-modal__name {
+    margin: 10px 0px;
+    width: 100%;
+    font-size: 28px;
+    font-weight: 500;
+    border: none;
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    border-color: #cbcbeb;
+}
+
+.card-edit-modal__name:focus,
+input:focus {
+    outline: none;
+}
+
+.card-edit-modal__props {
+    margin: 10px 0;
+    display: flex;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.card-edit-modals__labels {
+    width: 30%;
+}
+
+.card-edit-modal__inputs {
+    width: 70%;
+}
+
+.card-edit-modal__label {
+    padding: 25px 0px;
+    display: flex;
+    align-items: center;
+    color: #818a9e;
+}
+
+.card-edit-modal__label mat-icon {
+    margin-right: 10px;
+}
+
+.card-edit-modal__inputs mat-form-field {
+    width: 100%;
+}
+
+.card-edit-modal__description {
+    width: 100%;
+}

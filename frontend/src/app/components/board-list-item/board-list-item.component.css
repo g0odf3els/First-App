@@ -1,0 +1,13 @@
+.board-list-item {
+    padding: 10px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.board-list-item:hover {
+    background-color: lightgrey;
+}

@@ -7,13 +7,17 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 
-import { PriorityFormatPipe } from '../../pipes/priority-format.pipe';
+import { PriorityPipe } from '../../pipes/priority.pipe';
 
-import { CardService } from '../../services/card.service';
 import { Card } from '../../data/models/card';
+import { CardService } from '../../services/card.service';
+import { CardListService } from '../../services/card-list.service';
+import { MatDialog } from '@angular/material/dialog';
+import { CardEditModalComponent } from '../card-edit-modal/card-edit-modal.component';
+import { CardModalComponent } from '../card-modal/card-modal.component';
 
 @Component({
-  selector: 'card',
+  selector: 'app-card',
   standalone: true,
   imports: [
     CommonModule,
@@ -23,7 +27,7 @@ import { Card } from '../../data/models/card';
     MatMenuModule,
     MatButtonModule,
     MatSelectModule,
-    PriorityFormatPipe
+    PriorityPipe
   ],
   templateUrl: './card.component.html',
   styleUrl: './card.component.css'
@@ -31,7 +35,59 @@ import { Card } from '../../data/models/card';
 export class CardComponent {
   @Input() card: Card;
 
-  constructor(public cardService: CardService) { }
+  constructor(
+    public dialog: MatDialog,
+    public cardService: CardService,
+    public cardListService: CardListService) { }
+
+  openCard() {
+    this.dialog.open(CardModalComponent,
+      {
+        data: Object.assign({}, this.card)
+      }
+    );
+  }
+
+  editCard() {
+    const dialogRef = this.dialog.open(CardEditModalComponent, {
+      data: Object.assign({}, this.card)
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.cardService.updateCard(result).subscribe({
+          next: (data) => {
+            this.cardListService.loadCardListsPaged(this.card.boardId, 1, 50);
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        })
+      }
+    });
+  }
+
+  deleteCard() {
+    this.cardService.deleteCard(this.card).subscribe({
+      next: () => {
+        this.cardListService.loadCardListsPaged(this.card.boardId, 1, 50);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
+  }
+
+  onListChange(event: MatSelectChange) {
+    this.cardService.updateCard(this.card).subscribe({
+      next: () => {
+        this.cardListService.loadCardListsPaged(this.card.boardId, 1, 50);
+      },
+      error: (erorr) => {
+        console.log(erorr);
+      }
+    })
+  }
 
   getPriorityCssClass(): string {
     if (this.card && this.card.priority === 0) {
@@ -43,9 +99,5 @@ export class CardComponent {
     } else {
       return '';
     }
-  }
-
-  onListChange(event: MatSelectChange) {
-    this.cardService.updateCard(this.card);
   }
 }

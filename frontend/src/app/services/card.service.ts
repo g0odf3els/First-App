@@ -1,15 +1,11 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-
-import { Card } from '../data/models/card';
-import { CardList } from '../data/models/card-list';
-import { Priority } from '../data/enums/priority';
 import { environment } from '../../environments/environment.development';
+import { Card } from '../data/models/card';
+import { Observable } from 'rxjs';
 
 export enum ApiPaths {
   cards = 'cards',
-  cardLists = 'cardLists',
 }
 
 @Injectable({
@@ -20,148 +16,29 @@ export class CardService {
   constructor(private http: HttpClient) { }
 
   private baseUrl = environment.baseUrl;
-  cardLists: CardList[];
 
-  private cardUpdateCreateSource = new Subject<Card>();
-  private cardListsUpdatedSource = new Subject<void>();
-  private cardCreateSource = new Subject<Card>();
-  private cardSelectSource = new Subject<Card>();
-  private errorSource = new Subject<any>();
-
-  cardListsUpdated$ = this.cardListsUpdatedSource.asObservable();
-  cardCreated$ = this.cardCreateSource.asObservable();
-  cardUpdated$ = this.cardUpdateCreateSource.asObservable();
-  cardSelected$ = this.cardSelectSource.asObservable();
-  error = this.errorSource.asObservable();
-
-  loadCardListsPaged(page: number, pageSize: number) {
-    const params = new HttpParams()
-      .set('page', page.toString())
-      .set('pageSize', pageSize.toString());
-
-    this.http.get<CardList[]>(`${this.baseUrl}/${ApiPaths.cardLists}`, { params }).subscribe(
-      {
-        next: (data) => {
-          this.cardLists = data;
-        },
-        error: (error) => {
-          this.errorSource.next(error);
-          console.log(error);
-        }
-      }
-    );
+  createCard(card: Card): Observable<Card> {
+    return this.http.post<Card>(`${this.baseUrl}/${ApiPaths.cards}`, {
+      "boardId": card.boardId,
+      "cardListId": card.listId,
+      "name": card.name,
+      "description": card.description,
+      "dueTime": card.dueDate,
+      "priority": card.priority
+    });
   }
 
-  createCardList(name: string) {
-    this.http.post<CardList>(`${this.baseUrl}/${ApiPaths.cardLists}`, { "name": name }).subscribe(
-      {
-        next: () => {
-          this.cardListsUpdatedSource.next();
-        },
-        error: (error) => {
-          this.errorSource.next(error);
-          console.log(error);
-        }
-      });
+  updateCard(card: Card): Observable<Card> {
+    return this.http.patch<Card>(`${this.baseUrl}/${ApiPaths.cards}/${card.id}`, {
+      "cardListId": card.listId,
+      "name": card.name,
+      "description": card.description,
+      "dueTime": card.dueDate,
+      "priority": card.priority
+    });
   }
 
-
-  updateCardList(id: string, name: string) {
-    this.http.patch<void>(`${this.baseUrl}/${ApiPaths.cardLists}/${id}`, { "name": name }).subscribe(
-      {
-        next: () => {
-          this.cardListsUpdatedSource.next();
-        },
-        error: (error) => {
-          this.errorSource.next(error);
-          console.log(error);
-        }
-      });
-  }
-
-  deleteCardList(id: string) {
-    return this.http.delete<void>(`${this.baseUrl}/${ApiPaths.cardLists}/${id}`).subscribe(
-      {
-        next: () => {
-          this.cardListsUpdatedSource.next();
-        },
-        error: (error) => {
-          this.errorSource.next(error);
-          console.log(error);
-        }
-      });
-  }
-
-  createCard(request: Card) {
-    this.http.post<Card>(`${this.baseUrl}/${ApiPaths.cards}`, {
-      "cardListId": request.listId,
-      "name": request.name,
-      "description": request.description,
-      "dueTime": request.dueDate,
-      "priority": request.priority
-    }).subscribe(
-      {
-        next: () => {
-          this.cardListsUpdatedSource.next();
-        },
-        error: (error) => {
-          this.errorSource.next(error);
-          console.log(error);
-        }
-      });
-  }
-
-  updateCard(request: Card) {
-    this.http.patch<Card>(`${this.baseUrl}/${ApiPaths.cards}/${request.id}`, {
-      "cardListId": request.listId,
-      "name": request.name,
-      "description": request.description,
-      "dueTime": request.dueDate,
-      "priority": request.priority
-    }).subscribe(
-      {
-        next: () => {
-          this.cardListsUpdatedSource.next();
-        },
-        error: (error) => {
-          this.errorSource.next(error);
-          console.log(error);
-        }
-      });
-  }
-
-  deleteCard(id: string) {
-    return this.http.delete<void>(`${this.baseUrl}/${ApiPaths.cards}/${id}`).subscribe(
-      {
-        next: () => {
-          this.cardListsUpdatedSource.next();
-        },
-        error: (error) => {
-          this.errorSource.next(error);
-          console.log(error);
-        }
-      });
-  }
-
-  openNewCardModal(selectedListId: string) {
-    const newCard: Card = {
-      listId: selectedListId,
-      id: '',
-      name: 'New Card',
-      description: '',
-      dueDate: new Date(),
-      priority: Priority.Low,
-    };
-
-    this.cardCreateSource.next(newCard);
-  }
-
-  openEditCardModal(card: Card) {
-    this.cardCreateSource.next(card);
-  }
-
-  openCardModal(card: Card) {
-    this.cardSelectSource.next(card);
+  deleteCard(card: Card): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${ApiPaths.cards}/${card.id}`);
   }
 }
-

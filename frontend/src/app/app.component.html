@@ -1,1 +1,4 @@
-<card-board></card-board>
+<div class="app">
+    <app-board-list *ngIf="isBoardListVisible" (hideEvent)="isBoardListVisible=false" />
+    <app-board [board]="boardService.selectedBoard$ | async" (changeBoardEvent)="isBoardListVisible=true" />
+</div>

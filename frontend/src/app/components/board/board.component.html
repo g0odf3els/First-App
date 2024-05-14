@@ -1,0 +1,35 @@
+<div class="board" *ngIf="board">
+    <div class="board__header">
+        <div class="board__header__left">
+            <div class="board__name">{{board.name}}</div>
+            <button class="board__change" (click)="changeBoard()">Select board</button>
+        </div>
+    </div>
+
+    <div class="board__card-lists">
+        <app-card-list *ngFor="let cardList of cardListService.cardLists$ | async"
+            [cardList]="cardList"></app-card-list>
+
+        <div class="add-list">
+            <div class="add-list__button" *ngIf="!isNewListFormVisible" (click)="this.isNewListFormVisible = true">
+                Add another list
+                <mat-icon>add</mat-icon>
+            </div>
+
+            <form class="add-list__form" #cardListForm="ngForm" (ngSubmit)="createCardList()"
+                *ngIf="isNewListFormVisible">
+                <input class="add-list__input" type="text" name="name" [(ngModel)]="newList.name" required>
+                <div class="add-list__buttons">
+                    <button class="add-list__create" type="submit" [disabled]="!cardListForm.form.valid">Add
+                        list</button>
+                    <button class="add-list__cancel" (click)="isNewListFormVisible = false">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="board__none" *ngIf="!board">
+    Select an existing board or create a new one
+    <button class="board__change" (click)="changeBoard()">Select board</button>
+</div>

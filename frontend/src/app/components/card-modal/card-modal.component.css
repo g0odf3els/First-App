@@ -1,34 +1,3 @@
-.card-modal {
-    border-radius: 5px;
-}
-
-.card-modal__content {
-    display: flex;
-    max-width: 1000px;
-    max-height: 700px;
-}
-
-@media (max-width: 800px) {
-    .card-modal__content {
-        flex-direction: column;
-    }
-}
-
-.card-modal__header {
-    border-radius: 5px 5px 0px 0px;
-    padding: 10px;
-    display: flex;
-    justify-content: end;
-    background-color: #5A647D;
-    color: white;
-}
-
-.card-modal__body {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-}
-
 .card-modal__body__header {
     display: flex;
     justify-content: space-between;
@@ -43,7 +12,6 @@
 }
 
 .card-modal__body__header__edit {
-    margin-left: 15px;
     display: flex;
     align-items: center;
     font-size: 18px;
@@ -63,7 +31,13 @@
 }
 
 .body-data__labels {
-    width: 200px;
+    min-width: 200px;
+}
+
+@media(max-width: 650px) {
+    .body-data__labels {
+        min-width: 100px;
+    }
 }
 
 .body-data__label {
