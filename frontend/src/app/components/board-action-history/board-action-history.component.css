@@ -5,6 +5,7 @@
     top: 0;
     right: 0;
     height: 100%;
+    min-height: 400px;
     width: 400px;
     background-color: #F0F0F5;
     z-index: 1;

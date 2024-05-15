@@ -54,13 +54,12 @@
     border-radius: 15px;
     padding: 5px 20px;
     background-color: #F0F0F5;
+    max-height: 35px;
 }
 
 .card__priority__symbol {
     font-size: 36px;
-    position: absolute;
-    left: 10px;
-    top: 3px;
+    margin-bottom: 5px;
 }
 
 .card__priority__text {
