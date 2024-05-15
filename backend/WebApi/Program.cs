@@ -2,6 +2,7 @@ using WebApi.Middleware;
 using Infrastructure;
 using Application;
 using Infrastructure.Data.Context;
+using Infrastructure.Data;
 
 namespace WebApi
 {
@@ -32,9 +33,14 @@ namespace WebApi
 
             var app = builder.Build();
 
-            var serviceScope = app.Services.CreateScope();
-            var dataContext = serviceScope.ServiceProvider.GetService<AppDbContext>();
-            dataContext?.Database.EnsureCreated();
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+
+                var context = services.GetRequiredService<AppDbContext>();
+                context.Database.EnsureCreated();
+                DbInitializer.Initialize(context);
+            }
 
             if (app.Environment.IsDevelopment())
             {
