@@ -51,6 +51,8 @@ namespace WebApi
             app.UseCors(CORSOpenPolicy);
 
             app.Run();
+
         }
     }
 }
+    public partial class Program { }
