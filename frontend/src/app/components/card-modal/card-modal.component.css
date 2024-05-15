@@ -1,32 +1,45 @@
+.modal__body {
+    display: flex;
+    flex-direction: row;
+    max-height: 600px;
+}
+
 .card-modal {
-    border-radius: 5px;
+    padding: 25px;
+    width: 60%;
+    overflow-y: auto;
+    min-height: 400px;
 }
 
-.card-modal__content {
-    display: flex;
-    max-width: 1000px;
-    max-height: 700px;
+.card-modal__action-history {
+    background-color: #F0F0F5;
+    overflow-y: auto;
+    width: 40%;
+    overflow-y: auto;
 }
 
-@media (max-width: 800px) {
-    .card-modal__content {
+.card-modal__action-history__header {
+    font-size: 18px;
+    font-weight: 500;
+    padding: 25px 25px 0px 25px;
+
+}
+
+@media(max-width: 600px) {
+    .modal__body {
         flex-direction: column;
+        overflow-y: auto;
+        width: 100%;
     }
-}
 
-.card-modal__header {
-    border-radius: 5px 5px 0px 0px;
-    padding: 10px;
-    display: flex;
-    justify-content: end;
-    background-color: #5A647D;
-    color: white;
-}
+    .card-modal {
+        padding: 10px;
+        width: 100%;
+    }
 
-.card-modal__body {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
+    .card-modal__action-history {
+        width: 100%;
+    }
 }
 
 .card-modal__body__header {
@@ -43,7 +56,6 @@
 }
 
 .card-modal__body__header__edit {
-    margin-left: 15px;
     display: flex;
     align-items: center;
     font-size: 18px;
@@ -63,7 +75,13 @@
 }
 
 .body-data__labels {
-    width: 200px;
+    min-width: 150px;
+}
+
+@media(max-width: 650px) {
+    .body-data__labels {
+        min-width: 90px;
+    }
 }
 
 .body-data__label {
@@ -102,16 +120,4 @@
 .body__description {
     color: #5A647D;
     font-weight: 400;
-}
-
-.card-modal__action-log {
-    overflow-y: auto;
-    padding: 20px;
-    min-width: 300px;
-    background-color: #F0F0F5;
-}
-
-.card-modal__action-log h2 {
-    padding-left: 15px;
-    font-size: 24px;
 }

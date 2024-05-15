@@ -1,0 +1,133 @@
+.board {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 100%;
+}
+
+.board__header {
+    display: flex;
+    justify-content: space-between;
+    padding: 25px;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px;
+}
+
+.board__header__left {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+}
+
+.board__history {
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid #E1E1E6;
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 4px 25px;
+    width: 150px;
+    height: fit-content;
+}
+
+.board__change {
+    margin-top: 15px;
+    padding: 5px 10px;
+    font-weight: 18px;
+    font-weight: 500;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    background-color: #5A647D;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    width: 200px;
+}
+
+.board__name {
+    font-size: 32px;
+    font-weight: 500px;
+}
+
+.board__card-lists {
+    display: flex;
+    gap: 15px;
+    padding: 25px;
+    overflow-x: auto;
+    flex-grow: 1;
+}
+
+@media(max-width: 650px) {
+    .board__card-lists {
+        flex-direction: column;
+    }
+}
+
+.board__none {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    padding: 25px;
+    text-align: center;
+    line-height: 32px;
+    height: 100%;
+}
+
+.add-list {
+    min-width: 350px;
+}
+
+.add-list__button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0px;
+    border-width: 1px 0 1px 0;
+    border-style: solid;
+    border-color: #E1E1E6;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.add-list__input {
+    width: 100%;
+    padding: 12px 4px;
+    background-color: #F0F0F5;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.add-list__buttons {
+    margin-top: 16px;
+    display: flex;
+    gap: 10px;
+}
+
+.add-list__buttons button {
+    width: 50%;
+    padding: 14px 0px;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    border: none;
+    border-radius: 4px;
+    font-weight: 18px;
+    font-weight: 500;
+}
+
+.add-list__create {
+    background-color: #5A647D;
+    color: white;
+}
+
+.add-list__create:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.add-list__cancel {
+    background-color: white;
+}

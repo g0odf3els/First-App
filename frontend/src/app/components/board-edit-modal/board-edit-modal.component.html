@@ -1,0 +1,23 @@
+<div class="modal">
+
+    <div class="modal__header">
+        <div>Edit Board</div>
+        <mat-icon (click)="onNoClick()">
+            close
+        </mat-icon>
+    </div>
+
+    <div class="modal__body">
+        <form class="board-edit-modal" (ngSubmit)="onSubmit()" #boardForm="ngForm">
+            <div class="form-group">
+                <label for="boardName">Name</label>
+                <input type="text" id="boardName" name="name" [(ngModel)]="data.name" required>
+            </div>
+            <div class="modal__buttons">
+                <button class="modal__buttons__save" type="submit" [disabled]="!boardForm.form.valid">Save</button>
+                <button class="modal__buttons__cancel" type="button" (click)="onNoClick()">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+</div>

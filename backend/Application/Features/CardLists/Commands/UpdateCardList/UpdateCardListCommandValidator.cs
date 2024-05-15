@@ -7,6 +7,10 @@ namespace Application.Features.CardLists.Commands.UpdateCardList
         public UpdateCardListCommandValidator() 
         {
             RuleFor(c => c.Id).NotEmpty();
+
+            RuleFor(c => c.Name)
+                 .NotEmpty()
+                 .MaximumLength(200);
         }
     }
 }

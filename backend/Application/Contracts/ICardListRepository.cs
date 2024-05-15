@@ -6,6 +6,6 @@ namespace Application.Contracts
     {
         Task<CardList?> GetCardListWithCards(Guid id);
 
-        Task<List<CardList>> GetCardListPagedWithCards(int page, int size);
+        Task<List<CardList>> GetCardListPagedWithCards(Guid boardId, int page, int size);
     }
 }

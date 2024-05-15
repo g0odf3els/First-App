@@ -3,6 +3,7 @@ using AutoMapper;
 using Domain.Entities;
 using Domain.Exceptions;
 using MediatR;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.Features.Cards.Commands.UpdateCard
 {
@@ -35,6 +36,11 @@ namespace Application.Features.Cards.Commands.UpdateCard
                 if (cardList == null)
                 {
                     throw new NotFoundException(request.CardListId.ToString());
+                }
+
+                if(cardToUpdadate.BoardId != cardList.BoardId)
+                {
+                    throw new ValidationException("You cannot move a card to another board's list");
                 }
 
                 cardList.Items.Add(cardToUpdadate);

@@ -3,6 +3,6 @@ using MediatR;
 
 namespace Application.Features.CardLists.Commands.CreateCardListCommand
 {
-    public sealed record CreateCardListCommand(string Name) 
+    public sealed record CreateCardListCommand(Guid BoardId, string Name) 
         : IRequest<CardListDto>;
 }

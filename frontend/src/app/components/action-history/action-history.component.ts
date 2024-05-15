@@ -2,11 +2,11 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { ActionLog } from '../../data/models/action-log';
-import { PropertyLog } from '../../data/models/property-log';
 import { ActionType } from '../../data/enums/actionType';
+import { PropertyLog } from '../../data/models/property-log';
 
 @Component({
-  selector: 'action-history',
+  selector: 'app-action-history',
   standalone: true,
   imports: [CommonModule, MatIcon],
   templateUrl: './action-history.component.html',

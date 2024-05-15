@@ -1,75 +1,81 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 
-import {
-  CdkDragDrop,
-  CdkDrag,
-  CdkDropList,
-  CdkDropListGroup,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
-
 import { CardList } from '../../data/models/card-list';
+import { CardListService } from '../../services/card-list.service';
+import { MatDialog } from '@angular/material/dialog';
+import { CardEditModalComponent } from '../card-edit-modal/card-edit-modal.component';
 import { CardService } from '../../services/card.service';
+import { Priority } from '../../data/enums/priority';
 import { CardComponent } from "../card/card.component";
+import { switchMap } from 'rxjs';
 
 @Component({
-  selector: 'card-list',
+  selector: 'app-card-list',
   standalone: true,
   templateUrl: './card-list.component.html',
   styleUrl: './card-list.component.css',
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatIconModule,
-    MatMenuModule,
-    MatButtonModule,
-    CdkDropList,
-    CdkDropListGroup,
-    CdkDrag,
-    CardComponent
-  ]
+  imports: [CommonModule, FormsModule, MatIconModule, MatMenuModule, MatButtonModule, CardComponent]
 })
 export class CardListComponent {
-  isFormVisible: boolean = false;
-  newListName: string;
 
-  @Input() cardList: CardList;
+  private _cardList: CardList | null;
 
-  constructor(public cardService: CardService) { }
+  public isFormVisible: boolean = false;
+  public newCardList: CardList;
 
-  ngOnInit() {
-    if (this.cardList && this.cardList.items) {
-      this.cardList.items.sort((a, b) => {
-        if (a.dueDate < b.dueDate) return -1;
-        if (a.dueDate > b.dueDate) return 1;
-        return 0;
-      });
+  constructor(public dialog: MatDialog, public cardListService: CardListService, public cardService: CardService) { }
+
+  @Input()
+  set cardList(cardList: CardList | null) {
+    this._cardList = cardList;
+    if (this._cardList) {
+      this.newCardList = JSON.parse(JSON.stringify(this._cardList));
     }
   }
 
-  updateList() {
-    this.cardService.updateCardList(this.cardList.id, this.newListName);
-    this.isFormVisible = false;
+  get cardList(): CardList | null {
+    return this._cardList;
   }
 
-  drop(event: CdkDragDrop<CardList>) {
-    if (event.previousContainer.id === event.container.id) {
-      moveItemInArray(event.container.data.items, event.previousIndex, event.currentIndex);
-    } else {
-      event.previousContainer.data.items[event.previousIndex].listId = event.container.data.id;
-      this.cardService.updateCard(event.previousContainer.data.items[event.previousIndex]);
-      transferArrayItem(
-        event.previousContainer.data.items,
-        event.container.data.items,
-        event.previousIndex,
-        event.currentIndex,
-      );
+  updateCardList() {
+    this.cardListService.updateCardList(this.newCardList);
+  }
+
+  deleteCardList() {
+    if (this.cardList) {
+      this.cardListService.deleteCardList(this.cardList);
     }
+  }
+
+  createCard() {
+    const dialogRef = this.dialog.open(CardEditModalComponent, {
+      data: {
+        boardId: this._cardList?.boardId,
+        listId: this._cardList?.id,
+        name: "Card",
+        dueDate: new Date(),
+        priority: Priority.Medium
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.cardService.createCard(result).subscribe({
+          next: () => {
+            if (this.cardList) {
+              this.cardListService.loadCardListsPaged(this.cardList.boardId, 1, 50);
+            }
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        })
+      }
+    });
   }
 }

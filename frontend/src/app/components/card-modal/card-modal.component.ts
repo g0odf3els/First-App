@@ -1,58 +1,96 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { CardService } from '../../services/card.service';
-import { Subscription } from 'rxjs';
+import { MatIcon } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+
+import { CardListService } from '../../services/card-list.service';
 import { Card } from '../../data/models/card';
-import { PriorityFormatPipe } from "../../pipes/priority-format.pipe";
+import { CardService } from '../../services/card.service';
+
+import { PriorityPipe } from '../../pipes/priority.pipe';
+import { CardEditModalComponent } from '../card-edit-modal/card-edit-modal.component';
+import { ActionLogService } from '../../services/action-log.service';
 import { ActionLog } from '../../data/models/action-log';
-import { ActionLogService } from '../../services/actionLog.service';
 import { ActionHistoryComponent } from "../action-history/action-history.component";
 
 @Component({
-  selector: 'card-modal',
+  selector: 'app-card-modal',
   standalone: true,
   templateUrl: './card-modal.component.html',
   styleUrl: './card-modal.component.css',
-  imports: [CommonModule, MatIconModule, FormsModule, MatSelectModule, PriorityFormatPipe, ActionHistoryComponent]
+  imports: [CommonModule, MatIcon, FormsModule, MatSelectModule, PriorityPipe, ActionHistoryComponent]
 })
 export class CardModalComponent {
-  card: Card;
-  actionLog: ActionLog[];
-  display: boolean = false;
-  cardShowSubscription: Subscription;
 
-  constructor(public cardService: CardService, public actionLogService: ActionLogService) { }
+  public actionLogs: ActionLog[];
 
-  ngOnInit() {
-    this.cardShowSubscription = this.cardService.cardSelected$.subscribe(
-      (newCard) => {
-        this.card = newCard;
-        this.display = true;
+  private _data: Card;
 
-        this.actionLogService.loadCardActionLogPaged(this.card.id, 1, 1000).subscribe({
-          next: (data) => {
-            this.actionLog = data;
-          }
-        })
-      }
-    );
+  constructor(
+    public cardListService: CardListService,
+    public cardService: CardService,
+    public actionLogService: ActionLogService,
+    public dialog: MatDialog,
+    public dialogRef: MatDialogRef<CardModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public initialData: Card,
+  ) {
+    this.data = initialData;
   }
 
-  ngOnDestroy() {
-    if (this.cardShowSubscription) {
-      this.cardShowSubscription.unsubscribe();
+  get data(): Card {
+    return this._data;
+  }
+
+  set data(value: Card) {
+    this._data = value;
+    if (this._data) {
+      this.actionLogService.loadCardActionLogPaged(this._data.id, 1, 150)
+        .subscribe({
+          next: (data) => {
+            this.actionLogs = data;
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        })
     }
   }
 
   editCard() {
-    this.display = false;
-    this.cardService.openEditCardModal(this.card);
+    const dialogRef = this.dialog.open(CardEditModalComponent, {
+      data: Object.assign({}, this.data)
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.cardService.updateCard(result).subscribe({
+          next: () => {
+            this.data = result;
+            this.cardListService.loadCardListsPaged(this.data.boardId, 1, 50);
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        })
+      }
+    });
   }
 
   onListChange(event: MatSelectChange) {
-    this.cardService.updateCard(this.card);
+    this.cardService.updateCard(this.data).subscribe({
+      next: () => {
+        this.cardListService.loadCardListsPaged(this.data.boardId, 1, 50);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

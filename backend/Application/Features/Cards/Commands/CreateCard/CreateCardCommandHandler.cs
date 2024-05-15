@@ -32,7 +32,8 @@ namespace Application.Features.Cards.Commands.CreateCard
             var card = new Card()
             {
                 CreationTime = DateTime.UtcNow,
-                ListId = request.CardListId,
+                BoardId = cardList.BoardId,
+                ListId = cardList.Id,
                 Name = request.Name,
                 Description = request.Description,
                 DueDate = request.DueTime,

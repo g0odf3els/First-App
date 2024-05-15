@@ -1,10 +1,8 @@
 .card-list {
     width: 350px;
-    min-height: 500px;
-    ;
 }
 
-@media (max-width: 800px) {
+@media(max-width: 650px) {
     .card-list {
         width: 100%;
     }
@@ -32,7 +30,16 @@
     font-weight: 600;
 }
 
-.card-list__header__add-button {
+.list__menu__delete {
+    color: #FF0000;
+    width: 200px;
+}
+
+.list__menu__delete mat-icon {
+    color: #FF0000;
+}
+
+.card-list__add {
     display: flex;
     justify-content: center;
     width: 100%;
@@ -45,7 +52,7 @@
     font-weight: 600;
 }
 
-.card-list__header__add-button__icon {
+.card-list__add mat-icon {
     margin-right: 10px;
 }
 
@@ -53,56 +60,49 @@
     margin-bottom: 16px;
 }
 
-.edit-list__form__input {
-    padding: 14px 10px;
-    box-sizing: border-box;
+.edit-list__input {
     width: 100%;
+    padding: 12px 4px;
     background-color: #F0F0F5;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
     border: none;
     border-radius: 4px;
-    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    font-size: 18px;
+    font-weight: 500;
 }
 
-.edit-list__form__input__buttons {
-    margin-top: 20px;
+.edit-list__buttons {
+    margin-top: 16px;
     display: flex;
-    gap: 5px;
+    gap: 10px;
 }
 
-.edit-list__form__input__buttons button {
-    padding: 14px 25px;
+.edit-list__buttons button {
     width: 50%;
+    padding: 14px 0px;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    border: none;
+    border-radius: 4px;
     font-weight: 18px;
     font-weight: 500;
-    border: none;
-    border-radius: 4px;
-    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
 
-.edit-list__form__input__buttons__create {
+.edit-list__create {
     background-color: #5A647D;
     color: white;
 }
 
-.edit-list__form__input__buttons__cancel {
+.edit-list__create:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.edit-list__cancel {
     background-color: white;
 }
 
 .card-list__cards {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-}
-
-.list__menu {
-    min-width: 150px;
-}
-
-.list__menu__delete {
-    color: #FF0000;
-    width: 200px;
-}
-
-.list__menu__delete mat-icon {
-    color: #FF0000;
+    gap: 15px;
 }

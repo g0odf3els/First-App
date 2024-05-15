@@ -1,0 +1,19 @@
+<div class="board-list">
+    <div class="modal__header">
+        <mat-icon (click)="hide()">close</mat-icon>
+    </div>
+
+    <div *ngIf="loading$ | async" class="loading-spinner">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <div class="board__header" *ngIf="!(loading$ | async)">
+        My Boards
+        <mat-icon (click)="createBoard()">add</mat-icon>
+    </div>
+
+    <app-board-list-item *ngFor="let board of boards$ | async" [board]="board"
+        (boardSelectedEvent)="selectBoard($event)" (updateBoardEvent)="updateBoard($event)"
+        (deleteBoardEvent)="deleteBoard($event)">
+    </app-board-list-item>
+</div>

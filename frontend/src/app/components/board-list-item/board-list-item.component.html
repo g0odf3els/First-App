@@ -1,0 +1,21 @@
+<div class="board-list-item" (click)="onBoardClick(board)">
+    {{board.name}}
+
+    <button mat-icon-button [matMenuTriggerFor]="menu" (click)="onButtonClick($event)">
+        <mat-icon>more_vert</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+
+        <button mat-menu-item (click)="updateBoardEvent.emit(board)">
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+        </button>
+
+        <button class="board-list__delete" mat-menu-item (click)="deleteBoardEvent.emit(board)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+        </button>
+
+    </mat-menu>
+</div>

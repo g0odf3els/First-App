@@ -7,6 +7,7 @@ namespace Infrastructure.Data.Context
     public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
     {
         public DbSet<Card> Cards { get; set; }
+        public DbSet<Board> Boards { get; set; }
         public DbSet<CardList> CardLists { get; set; }
         public DbSet<ActionLog> ActionLogs { get; set; }
         public DbSet<PropertyLog> PropertyLogs { get; set; }
@@ -14,6 +15,14 @@ namespace Infrastructure.Data.Context
         static AppDbContext()
         {
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ActionLog>()
+                .HasOne(a => a.Board)
+                .WithMany(b => b.ActionLogs)
+                .HasForeignKey(a => a.BoardId);
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
@@ -32,8 +41,17 @@ namespace Infrastructure.Data.Context
                     EntityName = (string)entry.Property("Name").CurrentValue,
                     EntityId = (Guid)entry.Property("Id").CurrentValue,
                     EntityType = entry.Entity.GetType().Name,
-                    Timestamp = DateTime.UtcNow
+                    CreationTime = DateTime.UtcNow
                 };
+
+                if (actionLog.EntityType != "Board")
+                {
+                    actionLog.BoardId = (Guid)entry.Property("BoardId").CurrentValue;
+                }
+                else
+                {
+                    actionLog.BoardId = (Guid)entry.Property("Id").CurrentValue;
+                }
 
                 if (entry.State == EntityState.Added)
                 {

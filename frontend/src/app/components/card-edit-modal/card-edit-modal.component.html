@@ -1,0 +1,80 @@
+<div class="modal">
+
+    <div class="modal__header">
+        <div>Edit Card</div>
+        <mat-icon (click)="onNoClick()">close</mat-icon>
+    </div>
+
+    <div class="modal__body">
+
+        <form class="card-edit-modal" #editForm="ngForm" (ngSubmit)="onSubmit()">
+
+            <input class="card-edit-modal__name" [(ngModel)]="data.name" name="name" required>
+
+            <div class="card-edit-modal__props">
+
+                <div class="card-edit-modals__labels">
+
+                    <div class="card-edit-modal__label">
+                        <mat-icon>list</mat-icon>
+                        List
+                    </div>
+
+                    <div class="card-edit-modal__label">
+                        <mat-icon>calendar_today</mat-icon>
+                        Due date
+                    </div>
+
+                    <div class="card-edit-modal__label">
+                        <mat-icon>sell</mat-icon>
+                        Priority
+                    </div>
+
+                </div>
+
+                <div class="card-edit-modal__inputs">
+
+                    <mat-form-field>
+                        <mat-select [(ngModel)]="data.listId" [value]="data.listId" name="listId">
+                            <mat-option *ngFor="let list of cardListService.cardLists$ | async" [value]="list.id">{{
+                                list.name }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Due date</mat-label>
+                        <input matInput [matDatepicker]="picker" [(ngModel)]="data.dueDate" [value]="data.dueDate"
+                            name="dueDate">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field class="create-card-modal__body__card-list">
+                        <mat-select placeholder="Priority" [(ngModel)]="data.priority" [value]="data.priority"
+                            name="priority">
+                            <mat-option [value]="0">Low</mat-option>
+                            <mat-option [value]="1">Medium</mat-option>
+                            <mat-option [value]="2">High</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                </div>
+
+            </div>
+
+            <h2>Description</h2>
+            <mat-form-field class="card-edit-modal__description">
+                <textarea matInput [(ngModel)]="data.description" placeholder="Write some information..."
+                    name="description"></textarea>
+            </mat-form-field>
+
+            <div class="modal__buttons">
+                <button class="modal__buttons__save" type="submit" [disabled]="!editForm.valid">Save</button>
+                <button class="modal__buttons__cancel" type="button" (click)="onNoClick()">Cancel</button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

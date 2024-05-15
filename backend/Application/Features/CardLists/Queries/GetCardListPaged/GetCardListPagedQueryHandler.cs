@@ -18,7 +18,7 @@ namespace Application.Features.CardLists.Queries.GetCardListPaged
 
         public async Task<List<CardListDto>> Handle(GetCardListPagedQuery request, CancellationToken cancellationToken)
         {
-            var cardListPaged = await _cardListRepository.GetCardListPagedWithCards(request.Page, request.PageSize);
+            var cardListPaged = await _cardListRepository.GetCardListPagedWithCards(request.BoardId, request.Page, request.PageSize);
             return _mapper.Map<List<CardListDto>>(cardListPaged);
         }
     }

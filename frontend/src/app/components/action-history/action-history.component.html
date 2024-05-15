@@ -16,7 +16,7 @@
                         <b> {{getPropertyLogByPropertyName(action,'Name')?.newValue}} </b>
                     </span>
                     }
-                    {{ action.timestamp| date: 'MMM d '}} at {{ action.timestamp | date: 'h:mm a' }}
+                    {{ action.creationTime| date: 'MMM d '}} at {{ action.creationTime | date: 'h:mm a' }}
                 </div>
             </li>
             }
@@ -28,7 +28,7 @@
                             <mat-icon>radio_button_checked</mat-icon>
                             {{action.entityName}} </b> to
                         {{getPropertyLogByPropertyName(action, 'ListName')?.newValue}} </span>
-                    {{ action.timestamp| date: 'MMM d '}} at {{ action.timestamp | date: 'h:mm a' }}
+                    {{ action.creationTime| date: 'MMM d '}} at {{ action.creationTime | date: 'h:mm a' }}
                 </div>
             </li>
             }
@@ -39,46 +39,50 @@
                             <mat-icon>radio_button_checked</mat-icon>
                             {{action.entityName}} </b> from
                         {{getPropertyLogByPropertyName(action, 'ListName')?.oldValue}} </span>
-                    {{ action.timestamp| date: 'MMM d '}} at {{ action.timestamp | date: 'h:mm a' }}
+                    {{ action.creationTime| date: 'MMM d '}} at {{ action.creationTime | date: 'h:mm a' }}
                 </div>
             </li>
 
             }
             @else if(action.action === actionType.Modified) {
+            @for(prop of action.affectedProperties; track prop.actionLogId) {
+            @if(prop.propertyName === "Name") {
             <li>
-                @for(prop of action.affectedProperties; track prop.actionLogId) {
-                @if(prop.propertyName === "Name") {
                 <div class="action-history__item">
                     <span>You renamed from <b class="action-history__item__card-name">
                             <mat-icon>radio_button_checked</mat-icon> {{prop.oldValue}}</b>
                         to <b class="action-history__item__card-name"> <mat-icon>radio_button_checked</mat-icon>
                             {{prop.newValue}} </b> </span>
-                    {{ action.timestamp| date: 'MMM d '}} at {{ action.timestamp | date: 'h:mm a' }}
+                    {{ action.creationTime| date: 'MMM d '}} at {{ action.creationTime | date: 'h:mm a' }}
                 </div>
+            </li>
 
-                }
-                @else if(prop.propertyName === "Description") {
+            }
+            @else if(prop.propertyName === "Description") {
+            <li>
                 <div class="action-history__item">
                     <span> You changed the description <b class="action-history__item__card-name">
                             <mat-icon>radio_button_checked</mat-icon> {{action.entityName}}
                         </b>
                     </span>
-                    {{ action.timestamp| date: 'MMM d '}} at {{ action.timestamp | date: 'h:mm a' }}
+                    {{ action.creationTime| date: 'MMM d '}} at {{ action.creationTime | date: 'h:mm a' }}
                 </div>
-
-                }
-                @else if(prop.propertyName === "Priority") {
+            </li>
+            }
+            @else if(prop.propertyName === "Priority") {
+            <li>
                 <div class="action-history__item">
                     <span>You changed the priority <b
                             class="action-history__item__card-name"><mat-icon>radio_button_checked</mat-icon>
                             {{action.entityName}}</b>
                         from <b> {{prop.oldValue}} </b> to
                         <b> {{prop.newValue}} </b></span>
-                    {{ action.timestamp| date: 'MMM d '}} at {{ action.timestamp | date: 'h:mm a' }}
+                    {{ action.creationTime| date: 'MMM d '}} at {{ action.creationTime | date: 'h:mm a' }}
                 </div>
-
-                }
-                @else if(prop.propertyName === "DueDate") {
+            </li>
+            }
+            @else if(prop.propertyName === "DueDate") {
+            <li>
                 <div class="action-history__item">
                     <span>You changed the due date <b class="action-history__item__card-name">
                             <mat-icon>radio_button_checked</mat-icon>
@@ -86,20 +90,22 @@
                         </b>
                         from <b> {{ prop.oldValue | date: 'MMM d, y, h:mm a'}} </b> to
                         <b> {{ prop.newValue | date: 'MMM d, y, h:mm a'}} </b> </span>
-                    {{ action.timestamp| date: 'MMM d '}} at {{ action.timestamp | date: 'h:mm a' }}
+                    {{ action.creationTime| date: 'MMM d '}} at {{ action.creationTime | date: 'h:mm a' }}
                 </div>
-                }
-                @else if(prop.propertyName === "ListName") {
+            </li>
+            }
+            @else if(prop.propertyName === "ListName") {
+            <li>
                 <div class="action-history__item">
                     <span>You moved <b class="action-history__item__card-name"><mat-icon>radio_button_checked</mat-icon>
                             {{action.entityName}} </b>
                         from <b> {{prop.oldValue}} </b> to
                         <b>{{prop.newValue}}</b></span>
-                    {{ action.timestamp| date: 'MMM d '}} at {{ action.timestamp | date: 'h:mm a' }}
+                    {{ action.creationTime| date: 'MMM d '}} at {{ action.creationTime | date: 'h:mm a' }}
                 </div>
-                }
-                }
             </li>
+            }
+            }
             }
             }
         </div>
